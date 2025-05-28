@@ -37,50 +37,52 @@ void conv(memory_in_conv_t<FW, FH, ICH_PAR, ICH, WINDOW_IN>& memory_in,
     #pragma HLS ARRAY_PARTITION variable=filter_mem complete dim=0
 
     L6: for (int s_och = 0; s_och < OCH; s_och++){
-        //read the filter_stream and put it in the filter_mem
-        for (int s_fh = 0; s_fh < FH; s_fh++){
-            for (int s_fw = 0; s_fw < FW; s_fw++){
-                for (int s_ich = 0; s_ich < ICH; s_ich += ICH_PAR) {
-                    for (int s_ich_par = 0; s_ich_par < ICH_PAR; s_ich_par++){
-                        #pragma HLS pipeline II=1
-                        int idx_filter = (s_fw + s_fh * FW) + s_ich_par * FW * FH;
-                        int idx_depth = s_ich / ICH_PAR;
-                        filter_mem[idx_filter][idx_depth] = filter_stream.read();
+        for (int s_och_par = 0; s_och_par < ICH_PAR_OUT; s_och_par++){
+            //read the filter_stream and put it in the filter_mem
+            for (int s_fh = 0; s_fh < FH; s_fh++){
+                for (int s_fw = 0; s_fw < FW; s_fw++){
+                    for (int s_ich = 0; s_ich < ICH; s_ich += ICH_PAR) {
+                        for (int s_ich_par = 0; s_ich_par < ICH_PAR; s_ich_par++){
+                            #pragma HLS pipeline II=1
+                            int idx_filter = (s_fw + s_fh * FW) + s_ich_par * FW * FH;
+                            int idx_depth = s_ich / ICH_PAR;
+                            filter_mem[idx_filter][idx_depth] = filter_stream.read();
+                        }
                     }
                 }
             }
-        }
-        L5: for(int s_oh = 0; s_oh < OH; s_oh++){
-            L4: for(int s_ow = 0; s_ow < OW; s_ow++){
-                ap_int<45> sum = 0;
-                L3: for(int s_ich = 0; s_ich < ICH; s_ich += ICH_PAR){
-                    #pragma HLS pipeline II=1
-                    L3_bis: for (int s_ich_par = 0; s_ich_par < ICH_PAR; s_ich_par++){
-                        L2: for (int s_fh = 0; s_fh < FH; s_fh++){
-                            L1: for (int s_fw = 0; s_fw < FW; s_fw++){
-                                s_mem_i_depth = ((s_ow * STRIDE + s_fw) / FW ) * (ICH/ICH_PAR) + ((s_oh + s_fh) / FH) * ICH/ICH_PAR * WINDOW_IN + s_ich / ICH_PAR; //CON STRIDE E ICH_PAR
-                                s_mem_i = (((s_ow * STRIDE + s_fh * FW + s_fw) % FW) + ((s_oh * FH + s_fh * FW)) % (FH * FW)) + s_ich_par * FW * FH; //CON STRIDE
-                                s_fil_i = s_fw + s_fh*FW + s_ich_par * FW * FH;
-                                s_fil_i_depth = s_ich / ICH_PAR; // + s_och * ICH / ICH_PAR;
-                                
-                                sum += memory_in[s_mem_i][s_mem_i_depth] * filter_mem[s_fil_i][s_fil_i_depth];
+            L5: for(int s_oh = 0; s_oh < OH; s_oh++){
+                L4: for(int s_ow = 0; s_ow < OW; s_ow++){
+                    ap_int<45> sum = 0;
+                    L3: for(int s_ich = 0; s_ich < ICH; s_ich += ICH_PAR){
+                        #pragma HLS pipeline II=1
+                        L3_bis: for (int s_ich_par = 0; s_ich_par < ICH_PAR; s_ich_par++){
+                            L2: for (int s_fh = 0; s_fh < FH; s_fh++){
+                                L1: for (int s_fw = 0; s_fw < FW; s_fw++){
+                                    s_mem_i_depth = ((s_ow * STRIDE + s_fw) / FW ) * (ICH/ICH_PAR) + ((s_oh + s_fh) / FH) * ICH/ICH_PAR * WINDOW_IN + s_ich / ICH_PAR; //CON STRIDE E ICH_PAR
+                                    s_mem_i = (((s_ow * STRIDE + s_fh * FW + s_fw) % FW) + ((s_oh * FH + s_fh * FW)) % (FH * FW)) + s_ich_par * FW * FH; //CON STRIDE
+                                    s_fil_i = s_fw + s_fh*FW + s_ich_par * FW * FH;
+                                    s_fil_i_depth = s_ich / ICH_PAR; // + s_och * ICH / ICH_PAR;
+                                    
+                                    sum += memory_in[s_mem_i][s_mem_i_depth] * filter_mem[s_fil_i][s_fil_i_depth];
 
-                                s_mem_o = (s_ow) % FW_OUT + (s_oh * FH_OUT) % (FH_OUT * FW_OUT); //AGGIUNGERE ICH_PAR
-                                s_mem_o_depth = (s_ow / FW_OUT) * OCH + (s_oh / FH_OUT) * OCH * (WINDOW_OUT) + s_och; //AGGIUNGERE ICH_PAR 
-                                out_mem[s_mem_o][s_mem_o_depth] = sum;
-                                if (s_ow >= OW - FW_OUT){
-                                    if (special_row_window != 0){
-                                        special_row_window--;
-                                        if (special_row_window == 0){
-                                            special_row_window = FW_OUT - ((OW / FW_OUT +1) * FW_OUT - OW);
+                                    s_mem_o = (s_ow) % FW_OUT + (s_oh * FH_OUT) % (FH_OUT * FW_OUT) + s_och_par * FH_OUT * FW_OUT;
+                                    s_mem_o_depth = (s_ow / FW_OUT) * (OCH / ICH_PAR_OUT) + (s_oh / FH_OUT) * (OCH / ICH_PAR_OUT) * (WINDOW_OUT) + s_och / ICH_PAR_OUT;
+                                    out_mem[s_mem_o][s_mem_o_depth] = sum;
+                                    if (s_ow >= OW - FW_OUT){
+                                        if (special_row_window != 0){
+                                            special_row_window--;
+                                            if (special_row_window == 0){
+                                                special_row_window = FW_OUT - ((OW / FW_OUT +1) * FW_OUT - OW);
+                                            }
                                         }
                                     }
-                                }
-                                if (s_oh >= OH - FH_OUT){
-                                    if (special_col_window != 0){
-                                        special_col_window--;
-                                        if (special_col_window == 0){
-                                            special_col_window = FH_OUT - ((OH / FH_OUT +1) * FH_OUT - OH);
+                                    if (s_oh >= OH - FH_OUT){
+                                        if (special_col_window != 0){
+                                            special_col_window--;
+                                            if (special_col_window == 0){
+                                                special_col_window = FH_OUT - ((OH / FH_OUT +1) * FH_OUT - OH);
+                                            }
                                         }
                                     }
                                 }
