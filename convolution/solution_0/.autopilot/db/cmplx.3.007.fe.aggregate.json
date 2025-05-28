@@ -1,0 +1,59 @@
+{
+  "0": {
+    "basicblocks": 6,
+    "calls": "1 2 3",
+    "file": "top_wrapper.cpp",
+    "fileloc": 82,
+    "instructions": 3633,
+    "loads": {
+      "T": 1
+    },
+    "name": "top_wrapper",
+    "total_instructions": 10637
+  },
+  "1": {
+    "basicblocks": 474,
+    "calls": "",
+    "file": "top_wrapper.cpp",
+    "fileloc": 3,
+    "instructions": 1853,
+    "loads": {
+      "L": 1
+    },
+    "name": "load_input",
+    "stores": {
+      "L": 450
+    },
+    "total_instructions": 1853
+  },
+  "2": {
+    "basicblocks": 556,
+    "calls": "",
+    "file": "conv.h",
+    "fileloc": 20,
+    "instructions": 4617,
+    "loads": {
+      "L": 450
+    },
+    "name": "conv<2, 13, 13, 3, 3, 2, 11, 11, 1, 1, 5, 1, 5, 5, 2, 3>",
+    "stores": {
+      "L": 450
+    },
+    "total_instructions": 4617
+  },
+  "3": {
+    "basicblocks": 15,
+    "calls": "",
+    "file": "top_wrapper.cpp",
+    "fileloc": 25,
+    "instructions": 534,
+    "loads": {
+      "L": 450
+    },
+    "name": "out_conv2mem<2, 13, 13, 3, 3, 2, 11, 11, 1, 162, 1, 1, 5, 5, 2, 3>",
+    "stores": {
+      "L": 1
+    },
+    "total_instructions": 534
+  }
+}

@@ -1,0 +1,1 @@
+set ::AESL_AUTOSIM::gTopFileName /home/lorenzor/workspace/convolution/convolution/solution_0/./sim/autowrap/testbench/top_wrapper.cpp_pre.cpp.tb.cpp

@@ -1,0 +1,36 @@
+<pragmas>
+<pragma file="top_wrapper.cpp" line="6" pragmaType="inline" parentfunction="load_input" off="1" region="0" recursive="0"/>
+<pragma file="top_wrapper.cpp" line="10" pragmaType="pipeline" parentfunction="load_input" off="0" ii="-1" rewind="0" style=""/>
+<pragma file="/tools/Xilinx/Vitis/2024.2/common/technology/autopilot/etc/ap_common.h" line="515" pragmaType="inline" parentfunction="ssdm_int<8, true>::ssdm_int(signed char)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<8, true>::ap_int_base(int)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int<53>::ap_int<53, true>(ap_int_base<53, true> const&)" off="0" region="0" recursive="0"/>
+<pragma file="/tools/Xilinx/Vitis/2024.2/common/technology/autopilot/etc/ap_common.h" line="515" pragmaType="inline" parentfunction="_ZN8ssdm_intILi53ELb1EEC2EDq53_i" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="read" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<53, true>::ap_int_base<45, true>(ap_int_base<45, true> const&)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<53, true>::ap_int_base<8, true>(ap_int_base<8, true> const&)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<53, true>::ap_int_base(int)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="read" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<45, true>::RType<8, true>::mult operator*<45, true, 8, true>(ap_int_base<45, true> const&, ap_int_base<8, true> const&)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="checkOverflowBaseC" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<45, true>& ap_int_base<45, true>::operator+=<53, true>(ap_int_base<53, true> const&)" off="0" region="0" recursive="0"/>
+<pragma file="/tools/Xilinx/Vitis/2024.2/common/technology/autopilot/etc/ap_common.h" line="515" pragmaType="inline" parentfunction="_ZN8ssdm_intILi45ELb1EEC2EDq45_i" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int<45>::ap_int(int)" off="0" region="0" recursive="0"/>
+<pragma file="./conv.h" line="57" pragmaType="pipeline" parentfunction="conv" off="0" ii="1" rewind="0" style=""/>
+<pragma file="./conv.h" line="45" pragmaType="pipeline" parentfunction="conv" off="0" ii="1" rewind="0" style=""/>
+<pragma file="./conv.h" line="37" pragmaType="array_partition" parentfunction="conv" dim="0" factor="0" mode="complete" dynamic="0" variable="filter_mem"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<45, true>::operator long long() const" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<45, true>::ap_int_base(int)" off="0" region="0" recursive="0"/>
+<pragma file="top_wrapper.cpp" line="109" pragmaType="dataflow" parentfunction="top_wrapper" disable_start_propagation="0"/>
+<pragma file="top_wrapper.cpp" line="100" pragmaType="pipeline" parentfunction="top_wrapper" off="0" ii="1" rewind="0" style=""/>
+<pragma file="top_wrapper.cpp" line="86" pragmaType="interface" parentfunction="top_wrapper" mode="m_axi" port="memory" bundle="gmem1" offset="slave" name="" depth="-1" num_read_outstanding="-1" num_write_outstanding="-1" max_burst_read_length="-1" max_burst_write_length="-1" latency="-1" max_widen_bitwidth="-1" channel=""/>
+<pragma file="top_wrapper.cpp" line="87" pragmaType="interface" parentfunction="top_wrapper" mode="s_axilite" port="" bundle="control" offset="-1" name="" clock="" impl="" register="0"/>
+<pragma file="top_wrapper.cpp" line="88" pragmaType="interface" parentfunction="top_wrapper" mode="s_axilite" port="memory_in" bundle="gmem3" offset="-1" name="" clock="" impl="" register="0"/>
+<pragma file="top_wrapper.cpp" line="89" pragmaType="interface" parentfunction="top_wrapper" mode="m_axi" port="filter_val" bundle="gmem2" offset="slave" name="" depth="100" num_read_outstanding="-1" num_write_outstanding="-1" max_burst_read_length="-1" max_burst_write_length="-1" latency="-1" max_widen_bitwidth="-1" channel=""/>
+<pragma file="top_wrapper.cpp" line="94" pragmaType="stream" parentfunction="top_wrapper" depth="100" type="fifo" variable="filter2conv"/>
+<pragma file="top_wrapper.cpp" line="111" pragmaType="array_partition" parentfunction="top_wrapper" dim="0" factor="0" mode="complete" dynamic="0" variable="memory_in_local"/>
+<pragma file="top_wrapper.cpp" line="114" pragmaType="array_partition" parentfunction="top_wrapper" dim="0" factor="0" mode="complete" dynamic="0" variable="out_mem"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int<8>::ap_int(int)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="write" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="checkOverflowBaseC" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="hls::stream<ap_int<8>, 0>::stream()" off="0" region="0" recursive="0"/>
+</pragmas>

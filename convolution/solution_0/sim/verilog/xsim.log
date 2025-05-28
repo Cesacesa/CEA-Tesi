@@ -1,0 +1,42 @@
+#-----------------------------------------------------------
+# xsim v2024.2 (64-bit)
+# SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+# IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+# SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+# Start of session at: Tue May 27 16:13:51 2025
+# Process ID         : 1156
+# Current directory  : /home/lorenzor/workspace/convolution/convolution/solution_0/sim/verilog
+# Command line       : xsim -mode tcl -source {xsim.dir/top_wrapper/xsim_script.tcl}
+# Log file           : /home/lorenzor/workspace/convolution/convolution/solution_0/sim/verilog/xsim.log
+# Journal file       : /home/lorenzor/workspace/convolution/convolution/solution_0/sim/verilog/xsim.jou
+# Running On         : circtvm1.polito.it
+# Platform           : CentOSStream
+# Operating System   : CentOS Stream release 8
+# Processor Detail   : Intel(R) Core(TM) i7-6900K CPU @ 3.20GHz
+# CPU Frequency      : 3198.338 MHz
+# CPU Physical cores : 8
+# CPU Logical cores  : 16
+# Host memory        : 118198 MB
+# Swap memory        : 137438 MB
+# Total Virtual      : 255637 MB
+# Available Virtual  : 123673 MB
+#-----------------------------------------------------------
+source xsim.dir/top_wrapper/xsim_script.tcl
+# xsim {top_wrapper} -autoloadwcfg -tclbatch {top_wrapper.tcl}
+Time resolution is 1 ps
+source top_wrapper.tcl
+## run all
+////////////////////////////////////////////////////////////////////////////////////
+// Inter-Transaction Progress: Completed Transaction / Total Transaction
+// Intra-Transaction Progress: Measured Latency / Latency Estimation * 100%
+//
+// RTL Simulation : "Inter-Transaction Progress" ["Intra-Transaction Progress"] @ "Simulation Time"
+////////////////////////////////////////////////////////////////////////////////////
+// RTL Simulation : 0 / 1 [n/a] @ "113000"
+// RTL Simulation : 1 / 1 [n/a] @ "149393000"
+////////////////////////////////////////////////////////////////////////////////////
+$finish called at time : 149422500 ps : File "/home/lorenzor/workspace/convolution/convolution/solution_0/sim/verilog/top_wrapper.autotb.v" Line 705
+run: Time (s): cpu = 00:00:00 ; elapsed = 00:00:17 . Memory (MB): peak = 1544.844 ; gain = 0.000 ; free physical = 1631 ; free virtual = 117708
+## quit
+INFO: xsimkernel Simulation Memory Usage: 517088 KB (Peak: 569308 KB), Simulation CPU Usage: 18220 ms
+INFO: [Common 17-206] Exiting xsim at Tue May 27 16:14:13 2025...

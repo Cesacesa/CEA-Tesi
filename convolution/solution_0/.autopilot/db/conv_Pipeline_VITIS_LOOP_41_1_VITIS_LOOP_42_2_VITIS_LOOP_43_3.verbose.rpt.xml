@@ -1,0 +1,261 @@
+<profile>
+
+<section name = "Vitis HLS Report for 'conv_Pipeline_VITIS_LOOP_41_1_VITIS_LOOP_42_2_VITIS_LOOP_43_3'" level="0">
+<item name = "Date">Tue May 27 16:10:08 2025
+</item>
+<item name = "Version">2024.2 (Build 5238294 on Nov  8 2024)</item>
+<item name = "Project">convolution</item>
+<item name = "Solution">solution_0 (Vivado IP Flow Target)</item>
+<item name = "Product family">zynquplus</item>
+<item name = "Target device">xck26-sfvc784-2LV-c</item>
+</section>
+
+<section name = "Performance Estimates" level="0">
+<item name = "Timing">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="4">Clock, Target, Estimated, Uncertainty</keys>
+<column name="ap_clk">5.00 ns, 2.707 ns, 1.35 ns</column>
+</table>
+</item>
+</section>
+</item>
+<item name = "Latency">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="8">, min, max, min, max, min, max, Type</keys>
+<column name="">20, 20, 0.100 us, 0.100 us, 19, 19, loop auto-rewind stp (delay=0 clock cycles(s))</column>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="0">
+<keys size="9">Instance, Module, min, max, min, max, min, max, Type</keys>
+</table>
+</item>
+<item name = "Loop"><table name="" hasTotal="0">
+<keys size="8">Loop Name, min, max, Latency, achieved, target, Count, Pipelined</keys>
+<column name="- VITIS_LOOP_41_1_VITIS_LOOP_42_2_VITIS_LOOP_43_3">18, 18, 2, 1, 1, 18, yes</column>
+</table>
+</item>
+</section>
+</item>
+</section>
+</item>
+</section>
+
+<section name = "Utilization Estimates" level="0">
+<item name = "Summary"><table name="" hasTotal="1">
+<keys size="6">Name, BRAM_18K, DSP, FF, LUT, URAM</keys>
+<column name="DSP">-, -, -, -, -</column>
+<column name="Expression">-, -, 0, 276, -</column>
+<column name="FIFO">-, -, -, -, -</column>
+<column name="Instance">-, -, -, -, -</column>
+<column name="Memory">-, -, -, -, -</column>
+<column name="Multiplexer">-, -, 0, 252, -</column>
+<column name="Register">-, -, 163, -, -</column>
+<specialColumn name="Available">288, 1248, 234240, 117120, 64</specialColumn>
+<specialColumn name="Utilization (%)">0, 0, ~0, ~0, 0</specialColumn>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="1">
+<keys size="7">Instance, Module, BRAM_18K, DSP, FF, LUT, URAM</keys>
+</table>
+</item>
+<item name = "DSP"><table name="" hasTotal="0">
+<keys size="3">Instance, Module, Expression</keys>
+</table>
+</item>
+<item name = "Memory"><table name="" hasTotal="1">
+<keys size="10">Memory, Module, BRAM_18K, FF, LUT, URAM, Words, Bits, Banks, W*Bits*Banks</keys>
+</table>
+</item>
+<item name = "FIFO"><table name="" hasTotal="1">
+<keys size="8">Name, BRAM_18K, FF, LUT, URAM, Depth, Bits, Size:D*B</keys>
+</table>
+</item>
+<item name = "Expression"><table name="" hasTotal="1">
+<keys size="7">Variable Name, Operation, DSP, FF, LUT, Bitwidth P0, Bitwidth P1</keys>
+<column name="add_ln41_1_fu_593_p2">+, 0, 0, 12, 5, 1</column>
+<column name="add_ln41_fu_638_p2">+, 0, 0, 9, 2, 1</column>
+<column name="add_ln42_3_fu_605_p2">+, 0, 0, 12, 4, 1</column>
+<column name="add_ln42_fu_675_p2">+, 0, 0, 9, 2, 1</column>
+<column name="add_ln43_fu_1024_p2">+, 0, 0, 9, 2, 1</column>
+<column name="empty_48_fu_724_p2">+, 0, 0, 7, 4, 4</column>
+<column name="empty_47_fu_714_p2">-, 0, 0, 7, 4, 4</column>
+<column name="and_ln36_fu_662_p2">and, 0, 0, 2, 1, 1</column>
+<column name="ap_block_pp0_stage0_01001_grp1">and, 0, 0, 2, 1, 1</column>
+<column name="ap_condition_561">and, 0, 0, 2, 1, 1</column>
+<column name="icmp_ln41_fu_587_p2">icmp, 0, 0, 12, 5, 5</column>
+<column name="icmp_ln42_fu_599_p2">icmp, 0, 0, 12, 4, 3</column>
+<column name="icmp_ln43_fu_656_p2">icmp, 0, 0, 10, 2, 3</column>
+<column name="icmp_ln48_fu_730_p2">icmp, 0, 0, 9, 2, 1</column>
+<column name="empty_fu_681_p2">or, 0, 0, 2, 1, 1</column>
+<column name="s_ich_mid2_fu_686_p3">select, 0, 0, 2, 1, 1</column>
+<column name="select_ln36_fu_644_p3">select, 0, 0, 2, 1, 1</column>
+<column name="select_ln41_fu_668_p3">select, 0, 0, 2, 1, 2</column>
+<column name="select_ln42_1_fu_611_p3">select, 0, 0, 4, 1, 1</column>
+<column name="select_ln42_fu_694_p3">select, 0, 0, 2, 1, 2</column>
+<column name="select_ln48_10_fu_838_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_11_fu_846_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_12_fu_806_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_13_fu_814_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_14_fu_774_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_15_fu_782_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_16_fu_742_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_17_fu_750_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_1_fu_1006_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_2_fu_966_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_3_fu_974_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_4_fu_934_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_5_fu_942_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_6_fu_902_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_7_fu_910_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_8_fu_870_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_9_fu_878_p3">select, 0, 0, 8, 1, 8</column>
+<column name="select_ln48_fu_998_p3">select, 0, 0, 8, 1, 8</column>
+<column name="ap_enable_pp0">xor, 0, 0, 2, 1, 2</column>
+<column name="xor_ln36_fu_651_p2">xor, 0, 0, 2, 1, 2</column>
+</table>
+</item>
+<item name = "Multiplexer"><table name="" hasTotal="1">
+<keys size="5">Name, LUT, Input Size, Bits, Total Bits</keys>
+<column name="ap_done_int">9, 2, 1, 2</column>
+<column name="ap_enable_reg_pp0_iter1">9, 2, 1, 2</column>
+<column name="ap_sig_allocacmp_indvar_flatten48_load">9, 2, 5, 10</column>
+<column name="ap_sig_allocacmp_indvar_flatten_load">9, 2, 4, 8</column>
+<column name="filter2conv_blk_n">9, 2, 1, 2</column>
+<column name="filter_mem_18_fu_154">9, 2, 8, 16</column>
+<column name="filter_mem_19_fu_158">9, 2, 8, 16</column>
+<column name="filter_mem_20_fu_162">9, 2, 8, 16</column>
+<column name="filter_mem_21_fu_166">9, 2, 8, 16</column>
+<column name="filter_mem_22_fu_170">9, 2, 8, 16</column>
+<column name="filter_mem_23_fu_174">9, 2, 8, 16</column>
+<column name="filter_mem_24_fu_178">9, 2, 8, 16</column>
+<column name="filter_mem_25_fu_182">9, 2, 8, 16</column>
+<column name="filter_mem_26_fu_186">9, 2, 8, 16</column>
+<column name="filter_mem_27_fu_190">9, 2, 8, 16</column>
+<column name="filter_mem_28_fu_194">9, 2, 8, 16</column>
+<column name="filter_mem_29_fu_198">9, 2, 8, 16</column>
+<column name="filter_mem_30_fu_202">9, 2, 8, 16</column>
+<column name="filter_mem_31_fu_206">9, 2, 8, 16</column>
+<column name="filter_mem_32_fu_210">9, 2, 8, 16</column>
+<column name="filter_mem_33_fu_214">9, 2, 8, 16</column>
+<column name="filter_mem_34_fu_218">9, 2, 8, 16</column>
+<column name="filter_mem_35_fu_222">9, 2, 8, 16</column>
+<column name="idx_depth_fu_134">9, 2, 2, 4</column>
+<column name="indvar_flatten48_fu_150">9, 2, 5, 10</column>
+<column name="indvar_flatten_fu_142">9, 2, 4, 8</column>
+<column name="s_fh_fu_146">9, 2, 2, 4</column>
+<column name="s_fw_fu_138">9, 2, 2, 4</column>
+</table>
+</item>
+<item name = "Register"><table name="" hasTotal="1">
+<keys size="5">Name, FF, LUT, Bits, Const Bits</keys>
+<column name="ap_CS_fsm">1, 0, 1, 0</column>
+<column name="ap_done_reg">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter1">1, 0, 1, 0</column>
+<column name="filter_mem_18_fu_154">8, 0, 8, 0</column>
+<column name="filter_mem_19_fu_158">8, 0, 8, 0</column>
+<column name="filter_mem_20_fu_162">8, 0, 8, 0</column>
+<column name="filter_mem_21_fu_166">8, 0, 8, 0</column>
+<column name="filter_mem_22_fu_170">8, 0, 8, 0</column>
+<column name="filter_mem_23_fu_174">8, 0, 8, 0</column>
+<column name="filter_mem_24_fu_178">8, 0, 8, 0</column>
+<column name="filter_mem_25_fu_182">8, 0, 8, 0</column>
+<column name="filter_mem_26_fu_186">8, 0, 8, 0</column>
+<column name="filter_mem_27_fu_190">8, 0, 8, 0</column>
+<column name="filter_mem_28_fu_194">8, 0, 8, 0</column>
+<column name="filter_mem_29_fu_198">8, 0, 8, 0</column>
+<column name="filter_mem_30_fu_202">8, 0, 8, 0</column>
+<column name="filter_mem_31_fu_206">8, 0, 8, 0</column>
+<column name="filter_mem_32_fu_210">8, 0, 8, 0</column>
+<column name="filter_mem_33_fu_214">8, 0, 8, 0</column>
+<column name="filter_mem_34_fu_218">8, 0, 8, 0</column>
+<column name="filter_mem_35_fu_222">8, 0, 8, 0</column>
+<column name="icmp_ln42_reg_1299">1, 0, 1, 0</column>
+<column name="idx_depth_fu_134">2, 0, 2, 0</column>
+<column name="indvar_flatten48_fu_150">5, 0, 5, 0</column>
+<column name="indvar_flatten_fu_142">4, 0, 4, 0</column>
+<column name="s_fh_fu_146">2, 0, 2, 0</column>
+<column name="s_fw_fu_138">2, 0, 2, 0</column>
+</table>
+</item>
+</section>
+</item>
+</section>
+
+<section name = "Interface" level="0">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="6">RTL Ports, Dir, Bits, Protocol, Source Object, C Type</keys>
+<column name="ap_clk">in, 1, ap_ctrl_hs, conv_Pipeline_VITIS_LOOP_41_1_VITIS_LOOP_42_2_VITIS_LOOP_43_3, return value</column>
+<column name="ap_rst">in, 1, ap_ctrl_hs, conv_Pipeline_VITIS_LOOP_41_1_VITIS_LOOP_42_2_VITIS_LOOP_43_3, return value</column>
+<column name="ap_start">in, 1, ap_ctrl_hs, conv_Pipeline_VITIS_LOOP_41_1_VITIS_LOOP_42_2_VITIS_LOOP_43_3, return value</column>
+<column name="ap_done">out, 1, ap_ctrl_hs, conv_Pipeline_VITIS_LOOP_41_1_VITIS_LOOP_42_2_VITIS_LOOP_43_3, return value</column>
+<column name="ap_idle">out, 1, ap_ctrl_hs, conv_Pipeline_VITIS_LOOP_41_1_VITIS_LOOP_42_2_VITIS_LOOP_43_3, return value</column>
+<column name="ap_ready">out, 1, ap_ctrl_hs, conv_Pipeline_VITIS_LOOP_41_1_VITIS_LOOP_42_2_VITIS_LOOP_43_3, return value</column>
+<column name="filter2conv_dout">in, 8, ap_fifo, filter2conv, pointer</column>
+<column name="filter2conv_empty_n">in, 1, ap_fifo, filter2conv, pointer</column>
+<column name="filter2conv_read">out, 1, ap_fifo, filter2conv, pointer</column>
+<column name="filter2conv_num_data_valid">in, 8, ap_fifo, filter2conv, pointer</column>
+<column name="filter2conv_fifo_cap">in, 8, ap_fifo, filter2conv, pointer</column>
+<column name="filter_mem_17">in, 8, ap_none, filter_mem_17, scalar</column>
+<column name="filter_mem_16">in, 8, ap_none, filter_mem_16, scalar</column>
+<column name="filter_mem_15">in, 8, ap_none, filter_mem_15, scalar</column>
+<column name="filter_mem_14">in, 8, ap_none, filter_mem_14, scalar</column>
+<column name="filter_mem_13">in, 8, ap_none, filter_mem_13, scalar</column>
+<column name="filter_mem_12">in, 8, ap_none, filter_mem_12, scalar</column>
+<column name="filter_mem_11">in, 8, ap_none, filter_mem_11, scalar</column>
+<column name="filter_mem_10">in, 8, ap_none, filter_mem_10, scalar</column>
+<column name="filter_mem_9">in, 8, ap_none, filter_mem_9, scalar</column>
+<column name="filter_mem_8">in, 8, ap_none, filter_mem_8, scalar</column>
+<column name="filter_mem_7">in, 8, ap_none, filter_mem_7, scalar</column>
+<column name="filter_mem_6">in, 8, ap_none, filter_mem_6, scalar</column>
+<column name="filter_mem_5">in, 8, ap_none, filter_mem_5, scalar</column>
+<column name="filter_mem_4">in, 8, ap_none, filter_mem_4, scalar</column>
+<column name="filter_mem_3">in, 8, ap_none, filter_mem_3, scalar</column>
+<column name="filter_mem_2">in, 8, ap_none, filter_mem_2, scalar</column>
+<column name="filter_mem_1">in, 8, ap_none, filter_mem_1, scalar</column>
+<column name="filter_mem">in, 8, ap_none, filter_mem, scalar</column>
+<column name="filter_mem_35_out">out, 8, ap_vld, filter_mem_35_out, pointer</column>
+<column name="filter_mem_35_out_ap_vld">out, 1, ap_vld, filter_mem_35_out, pointer</column>
+<column name="filter_mem_34_out">out, 8, ap_vld, filter_mem_34_out, pointer</column>
+<column name="filter_mem_34_out_ap_vld">out, 1, ap_vld, filter_mem_34_out, pointer</column>
+<column name="filter_mem_33_out">out, 8, ap_vld, filter_mem_33_out, pointer</column>
+<column name="filter_mem_33_out_ap_vld">out, 1, ap_vld, filter_mem_33_out, pointer</column>
+<column name="filter_mem_32_out">out, 8, ap_vld, filter_mem_32_out, pointer</column>
+<column name="filter_mem_32_out_ap_vld">out, 1, ap_vld, filter_mem_32_out, pointer</column>
+<column name="filter_mem_31_out">out, 8, ap_vld, filter_mem_31_out, pointer</column>
+<column name="filter_mem_31_out_ap_vld">out, 1, ap_vld, filter_mem_31_out, pointer</column>
+<column name="filter_mem_30_out">out, 8, ap_vld, filter_mem_30_out, pointer</column>
+<column name="filter_mem_30_out_ap_vld">out, 1, ap_vld, filter_mem_30_out, pointer</column>
+<column name="filter_mem_29_out">out, 8, ap_vld, filter_mem_29_out, pointer</column>
+<column name="filter_mem_29_out_ap_vld">out, 1, ap_vld, filter_mem_29_out, pointer</column>
+<column name="filter_mem_28_out">out, 8, ap_vld, filter_mem_28_out, pointer</column>
+<column name="filter_mem_28_out_ap_vld">out, 1, ap_vld, filter_mem_28_out, pointer</column>
+<column name="filter_mem_27_out">out, 8, ap_vld, filter_mem_27_out, pointer</column>
+<column name="filter_mem_27_out_ap_vld">out, 1, ap_vld, filter_mem_27_out, pointer</column>
+<column name="filter_mem_26_out">out, 8, ap_vld, filter_mem_26_out, pointer</column>
+<column name="filter_mem_26_out_ap_vld">out, 1, ap_vld, filter_mem_26_out, pointer</column>
+<column name="filter_mem_25_out">out, 8, ap_vld, filter_mem_25_out, pointer</column>
+<column name="filter_mem_25_out_ap_vld">out, 1, ap_vld, filter_mem_25_out, pointer</column>
+<column name="filter_mem_24_out">out, 8, ap_vld, filter_mem_24_out, pointer</column>
+<column name="filter_mem_24_out_ap_vld">out, 1, ap_vld, filter_mem_24_out, pointer</column>
+<column name="filter_mem_23_out">out, 8, ap_vld, filter_mem_23_out, pointer</column>
+<column name="filter_mem_23_out_ap_vld">out, 1, ap_vld, filter_mem_23_out, pointer</column>
+<column name="filter_mem_22_out">out, 8, ap_vld, filter_mem_22_out, pointer</column>
+<column name="filter_mem_22_out_ap_vld">out, 1, ap_vld, filter_mem_22_out, pointer</column>
+<column name="filter_mem_21_out">out, 8, ap_vld, filter_mem_21_out, pointer</column>
+<column name="filter_mem_21_out_ap_vld">out, 1, ap_vld, filter_mem_21_out, pointer</column>
+<column name="filter_mem_20_out">out, 8, ap_vld, filter_mem_20_out, pointer</column>
+<column name="filter_mem_20_out_ap_vld">out, 1, ap_vld, filter_mem_20_out, pointer</column>
+<column name="filter_mem_19_out">out, 8, ap_vld, filter_mem_19_out, pointer</column>
+<column name="filter_mem_19_out_ap_vld">out, 1, ap_vld, filter_mem_19_out, pointer</column>
+<column name="filter_mem_18_out">out, 8, ap_vld, filter_mem_18_out, pointer</column>
+<column name="filter_mem_18_out_ap_vld">out, 1, ap_vld, filter_mem_18_out, pointer</column>
+</table>
+</item>
+</section>
+</profile>

@@ -1,0 +1,599 @@
+
+
+================================================================
+== Vitis HLS Report for 'load_input'
+================================================================
+* Date:           Tue May 27 16:10:08 2025
+
+* Version:        2024.2 (Build 5238294 on Nov  8 2024)
+* Project:        convolution
+* Solution:       solution_0 (Vivado IP Flow Target)
+* Product family: zynquplus
+* Target device:  xck26-sfvc784-2LV-c
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+---------+----------+------------+
+    |  Clock |  Target | Estimated| Uncertainty|
+    +--------+---------+----------+------------+
+    |ap_clk  |  5.00 ns|  2.771 ns|     1.35 ns|
+    +--------+---------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+----------+----------+-----+-----+---------+
+    |  Latency (cycles) |  Latency (absolute) |  Interval | Pipeline|
+    |   min   |   max   |    min   |    max   | min | max |   Type  |
+    +---------+---------+----------+----------+-----+-----+---------+
+    |      474|      474|  2.370 us|  2.370 us|  474|  474|       no|
+    +---------+---------+----------+----------+-----+-----+---------+
+
+    + Detail: 
+        * Instance: 
+        +----------------------------------------------------------------+----------------------------------------------------+---------+---------+----------+----------+-----+-----+------------------------------------------------+
+        |                                                                |                                                    |  Latency (cycles) |  Latency (absolute) |  Interval |                    Pipeline                    |
+        |                            Instance                            |                       Module                       |   min   |   max   |    min   |    max   | min | max |                      Type                      |
+        +----------------------------------------------------------------+----------------------------------------------------+---------+---------+----------+----------+-----+-----+------------------------------------------------+
+        |grp_load_input_Pipeline_load_input_loop_VITIS_LOOP_9_1_fu_1860  |load_input_Pipeline_load_input_loop_VITIS_LOOP_9_1  |      471|      471|  2.355 us|  2.355 us|  450|  450|  loop auto-rewind stp (delay=0 clock cycles(s))|
+        +----------------------------------------------------------------+----------------------------------------------------+---------+---------+----------+----------+-----+-----+------------------------------------------------+
+
+        * Loop: 
+        N/A
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+------+--------+--------+-----+
+|       Name      | BRAM_18K|  DSP |   FF   |   LUT  | URAM|
++-----------------+---------+------+--------+--------+-----+
+|DSP              |        -|     -|       -|       -|    -|
+|Expression       |        -|     -|       0|       2|    -|
+|FIFO             |        -|     -|       -|       -|    -|
+|Instance         |        -|     4|   21606|    1592|    -|
+|Memory           |        -|     -|       -|       -|    -|
+|Multiplexer      |        -|     -|       0|      44|    -|
+|Register         |        -|     -|      20|       -|    -|
++-----------------+---------+------+--------+--------+-----+
+|Total            |        0|     4|   21626|    1638|    0|
++-----------------+---------+------+--------+--------+-----+
+|Available        |      288|  1248|  234240|  117120|   64|
++-----------------+---------+------+--------+--------+-----+
+|Utilization (%)  |        0|    ~0|       9|       1|    0|
++-----------------+---------+------+--------+--------+-----+
+
++ Detail: 
+    * Instance: 
+    +----------------------------------------------------------------+----------------------------------------------------+---------+----+-------+------+-----+
+    |                            Instance                            |                       Module                       | BRAM_18K| DSP|   FF  |  LUT | URAM|
+    +----------------------------------------------------------------+----------------------------------------------------+---------+----+-------+------+-----+
+    |grp_load_input_Pipeline_load_input_loop_VITIS_LOOP_9_1_fu_1860  |load_input_Pipeline_load_input_loop_VITIS_LOOP_9_1  |        0|   4|  21606|  1587|    0|
+    |mul_3ns_13ns_14_1_1_U469                                        |mul_3ns_13ns_14_1_1                                 |        0|   0|      0|     5|    0|
+    +----------------------------------------------------------------+----------------------------------------------------+---------+----+-------+------+-----+
+    |Total                                                           |                                                    |        0|   4|  21606|  1592|    0|
+    +----------------------------------------------------------------+----------------------------------------------------+---------+----+-------+------+-----+
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +-----------------+----------+----+---+----+------------+------------+
+    |  Variable Name  | Operation| DSP| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +-----------------+----------+----+---+----+------------+------------+
+    |ap_block_state1  |        or|   0|  0|   2|           1|           1|
+    +-----------------+----------+----+---+----+------------+------------+
+    |Total            |          |   0|  0|   2|           1|           1|
+    +-----------------+----------+----+---+----+------------+------------+
+
+    * Multiplexer: 
+    +---------------+----+-----------+-----+-----------+
+    |      Name     | LUT| Input Size| Bits| Total Bits|
+    +---------------+----+-----------+-----+-----------+
+    |ap_NS_fsm      |  26|          5|    1|          5|
+    |ap_done        |   9|          2|    1|          2|
+    |img_0_c_blk_n  |   9|          2|    1|          2|
+    +---------------+----+-----------+-----+-----------+
+    |Total          |  44|          9|    3|          9|
+    +---------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +-----------------------------------------------------------------------------+----+----+-----+-----------+
+    |                                     Name                                    | FF | LUT| Bits| Const Bits|
+    +-----------------------------------------------------------------------------+----+----+-----+-----------+
+    |ap_CS_fsm                                                                    |   4|   0|    4|          0|
+    |ap_done_reg                                                                  |   1|   0|    1|          0|
+    |empty_reg_9077                                                               |  14|   0|   14|          0|
+    |grp_load_input_Pipeline_load_input_loop_VITIS_LOOP_9_1_fu_1860_ap_start_reg  |   1|   0|    1|          0|
+    +-----------------------------------------------------------------------------+----+----+-----+-----------+
+    |Total                                                                        |  20|   0|   20|          0|
+    +-----------------------------------------------------------------------------+----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++------------------------+-----+-----+------------+--------------+--------------+
+|        RTL Ports       | Dir | Bits|  Protocol  | Source Object|    C Type    |
++------------------------+-----+-----+------------+--------------+--------------+
+|ap_clk                  |   in|    1|  ap_ctrl_hs|    load_input|  return value|
+|ap_rst                  |   in|    1|  ap_ctrl_hs|    load_input|  return value|
+|ap_start                |   in|    1|  ap_ctrl_hs|    load_input|  return value|
+|ap_done                 |  out|    1|  ap_ctrl_hs|    load_input|  return value|
+|ap_continue             |   in|    1|  ap_ctrl_hs|    load_input|  return value|
+|ap_idle                 |  out|    1|  ap_ctrl_hs|    load_input|  return value|
+|ap_ready                |  out|    1|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_0             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_1             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_2             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_3             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_4             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_5             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_6             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_7             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_8             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_9             |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_10            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_11            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_12            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_13            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_14            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_15            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_16            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_17            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_18            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_19            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_20            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_21            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_22            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_23            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_24            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_25            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_26            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_27            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_28            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_29            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_30            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_31            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_32            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_33            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_34            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_35            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_36            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_37            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_38            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_39            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_40            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_41            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_42            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_43            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_44            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_45            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_46            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_47            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_48            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_49            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_50            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_51            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_52            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_53            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_54            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_55            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_56            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_57            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_58            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_59            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_60            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_61            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_62            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_63            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_64            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_65            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_66            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_67            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_68            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_69            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_70            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_71            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_72            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_73            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_74            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_75            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_76            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_77            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_78            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_79            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_80            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_81            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_82            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_83            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_84            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_85            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_86            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_87            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_88            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_89            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_90            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_91            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_92            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_93            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_94            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_95            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_96            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_97            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_98            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_99            |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_100           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_101           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_102           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_103           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_104           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_105           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_106           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_107           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_108           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_109           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_110           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_111           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_112           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_113           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_114           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_115           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_116           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_117           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_118           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_119           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_120           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_121           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_122           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_123           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_124           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_125           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_126           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_127           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_128           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_129           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_130           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_131           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_132           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_133           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_134           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_135           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_136           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_137           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_138           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_139           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_140           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_141           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_142           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_143           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_144           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_145           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_146           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_147           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_148           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_149           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_150           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_151           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_152           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_153           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_154           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_155           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_156           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_157           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_158           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_159           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_160           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_161           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_162           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_163           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_164           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_165           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_166           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_167           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_168           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_169           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_170           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_171           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_172           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_173           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_174           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_175           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_176           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_177           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_178           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_179           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_180           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_181           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_182           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_183           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_184           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_185           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_186           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_187           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_188           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_189           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_190           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_191           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_192           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_193           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_194           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_195           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_196           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_197           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_198           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_199           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_200           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_201           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_202           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_203           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_204           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_205           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_206           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_207           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_208           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_209           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_210           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_211           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_212           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_213           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_214           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_215           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_216           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_217           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_218           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_219           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_220           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_221           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_222           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_223           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_224           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_225           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_226           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_227           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_228           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_229           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_230           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_231           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_232           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_233           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_234           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_235           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_236           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_237           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_238           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_239           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_240           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_241           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_242           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_243           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_244           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_245           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_246           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_247           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_248           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_249           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_250           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_251           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_252           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_253           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_254           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_255           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_256           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_257           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_258           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_259           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_260           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_261           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_262           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_263           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_264           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_265           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_266           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_267           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_268           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_269           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_270           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_271           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_272           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_273           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_274           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_275           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_276           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_277           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_278           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_279           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_280           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_281           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_282           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_283           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_284           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_285           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_286           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_287           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_288           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_289           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_290           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_291           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_292           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_293           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_294           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_295           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_296           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_297           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_298           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_299           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_300           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_301           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_302           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_303           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_304           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_305           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_306           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_307           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_308           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_309           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_310           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_311           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_312           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_313           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_314           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_315           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_316           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_317           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_318           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_319           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_320           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_321           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_322           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_323           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_324           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_325           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_326           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_327           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_328           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_329           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_330           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_331           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_332           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_333           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_334           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_335           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_336           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_337           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_338           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_339           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_340           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_341           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_342           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_343           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_344           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_345           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_346           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_347           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_348           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_349           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_350           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_351           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_352           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_353           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_354           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_355           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_356           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_357           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_358           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_359           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_360           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_361           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_362           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_363           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_364           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_365           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_366           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_367           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_368           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_369           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_370           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_371           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_372           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_373           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_374           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_375           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_376           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_377           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_378           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_379           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_380           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_381           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_382           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_383           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_384           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_385           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_386           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_387           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_388           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_389           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_390           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_391           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_392           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_393           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_394           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_395           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_396           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_397           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_398           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_399           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_400           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_401           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_402           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_403           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_404           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_405           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_406           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_407           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_408           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_409           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_410           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_411           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_412           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_413           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_414           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_415           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_416           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_417           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_418           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_419           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_420           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_421           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_422           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_423           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_424           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_425           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_426           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_427           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_428           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_429           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_430           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_431           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_432           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_433           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_434           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_435           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_436           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_437           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_438           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_439           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_440           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_441           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_442           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_443           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_444           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_445           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_446           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_447           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_448           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|ap_return_449           |  out|   45|  ap_ctrl_hs|    load_input|  return value|
+|memory_in_address0      |  out|   12|   ap_memory|     memory_in|         array|
+|memory_in_ce0           |  out|    1|   ap_memory|     memory_in|         array|
+|memory_in_q0            |   in|   45|   ap_memory|     memory_in|         array|
+|img                     |   in|    3|     ap_none|           img|        scalar|
+|img_0_c_din             |  out|    3|     ap_fifo|       img_0_c|       pointer|
+|img_0_c_full_n          |   in|    1|     ap_fifo|       img_0_c|       pointer|
+|img_0_c_write           |  out|    1|     ap_fifo|       img_0_c|       pointer|
+|img_0_c_num_data_valid  |   in|    3|     ap_fifo|       img_0_c|       pointer|
+|img_0_c_fifo_cap        |   in|    3|     ap_fifo|       img_0_c|       pointer|
++------------------------+-----+-----+------------+--------------+--------------+
+

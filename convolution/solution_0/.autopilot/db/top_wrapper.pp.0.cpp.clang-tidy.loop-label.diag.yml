@@ -1,0 +1,382 @@
+---
+MainSourceFile:  /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+Diagnostics:     
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_676_1:  '
+    FileOffset:      676
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/etc/ap_int_ref.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1083876
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_676_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_690_1:  '
+    FileOffset:      690
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/etc/ap_int_ref.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1084342
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_690_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_704_1:  '
+    FileOffset:      704
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/etc/ap_int_ref.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1084809
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_704_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_1248_1:  '
+    FileOffset:      1248
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/etc/ap_fixed_base.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1368272
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_1248_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_127_1:  '
+    FileOffset:      127
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1758281
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_127_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_143_1:  '
+    FileOffset:      143
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1758728
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_143_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_169_1:  '
+    FileOffset:      169
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1759245
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_169_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_170_1:  '
+    FileOffset:      170
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1759554
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_170_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_198_1:  '
+    FileOffset:      198
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1760340
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_198_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_199_1:  '
+    FileOffset:      199
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1760687
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_199_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_200_1:  '
+    FileOffset:      200
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1761034
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_200_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_201_1:  '
+    FileOffset:      201
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1761381
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_201_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_202_1:  '
+    FileOffset:      202
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1761728
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_202_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_203_1:  '
+    FileOffset:      203
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1762075
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_203_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_204_1:  '
+    FileOffset:      204
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1762422
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_204_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_205_1:  '
+    FileOffset:      205
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1762769
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_205_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_206_1:  '
+    FileOffset:      206
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1763117
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_206_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_207_1:  '
+    FileOffset:      207
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1763466
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_207_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_222_1:  '
+    FileOffset:      222
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1763875
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_222_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_223_1:  '
+    FileOffset:      223
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1764203
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_223_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_224_1:  '
+    FileOffset:      224
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1764530
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_224_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_225_1:  '
+    FileOffset:      225
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1764856
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_225_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_226_1:  '
+    FileOffset:      226
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1765183
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_226_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_256_1:  '
+    FileOffset:      256
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1765627
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_256_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_257_1:  '
+    FileOffset:      257
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1766042
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_257_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_258_1:  '
+    FileOffset:      258
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1766459
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_258_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_259_1:  '
+    FileOffset:      259
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1766876
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_259_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_260_1:  '
+    FileOffset:      260
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1767293
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_260_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_261_1:  '
+    FileOffset:      261
+    FilePath:        /tools/xilinx/Vitis/2024.2/common/technology/autopilot/hls_vector.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1767709
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_261_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_41_1:  '
+    FileOffset:      41
+    FilePath:        /home/lorenzor/workspace/convolution/conv.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1775376
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_41_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_42_2:  '
+    FileOffset:      42
+    FilePath:        /home/lorenzor/workspace/convolution/conv.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1775427
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_42_2: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_43_3:  '
+    FileOffset:      43
+    FilePath:        /home/lorenzor/workspace/convolution/conv.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1775482
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_43_3: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_44_4:  '
+    FileOffset:      44
+    FilePath:        /home/lorenzor/workspace/convolution/conv.h
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1775555
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_44_4: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_9_1:  '
+    FileOffset:      9
+    FilePath:        top_wrapper.cpp
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1778709
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_9_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_37_1:  '
+    FileOffset:      37
+    FilePath:        top_wrapper.cpp
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1779547
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_37_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_38_2:  '
+    FileOffset:      38
+    FilePath:        top_wrapper.cpp
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1779620
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_38_2: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_40_3:  '
+    FileOffset:      40
+    FilePath:        top_wrapper.cpp
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1779708
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_40_3: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_41_4:  '
+    FileOffset:      41
+    FilePath:        top_wrapper.cpp
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1779789
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_41_4: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_42_5:  '
+    FileOffset:      42
+    FilePath:        top_wrapper.cpp
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1779853
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_42_5: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_43_6:  '
+    FileOffset:      43
+    FilePath:        top_wrapper.cpp
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1779934
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_43_6: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_92_1:  '
+    FileOffset:      92
+    FilePath:        top_wrapper.cpp
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1782132
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_92_1: '
+  - DiagnosticName:  xilinx-label-all-loops
+    Message:         'Added loop label VITIS_LOOP_99_2:  '
+    FileOffset:      99
+    FilePath:        top_wrapper.cpp
+    Replacements:    
+      - FilePath:        /home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp
+        Offset:          1782265
+        Length:          0
+        ReplacementText: 'VITIS_LOOP_99_2: '
+...

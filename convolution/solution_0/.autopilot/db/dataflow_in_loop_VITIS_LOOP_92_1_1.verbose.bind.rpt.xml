@@ -1,0 +1,50 @@
+<profile>
+
+<section name = "Vitis HLS Report for 'dataflow_in_loop_VITIS_LOOP_92_1_1'" level="0">
+<item name = "Date">Tue May 27 16:09:50 2025
+</item>
+<item name = "Version">2024.2 (Build 5238294 on Nov  8 2024)</item>
+<item name = "Project">convolution</item>
+<item name = "Solution">solution_0 (Vivado IP Flow Target)</item>
+<item name = "Product family">zynquplus</item>
+<item name = "Target device">xck26-sfvc784-2LV-c</item>
+</section>
+
+<section name = "Performance Estimates" level="0">
+<item name = "Timing">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="4">Clock, Target, Estimated, Uncertainty</keys>
+<column name="ap_clk">5.00 ns, 3.650 ns, 1.35 ns</column>
+</table>
+</item>
+</section>
+</item>
+<item name = "Latency">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="8">, min, max, min, max, min, max, Type</keys>
+<column name="">?, ?, ?, ?, ?, ?, dataflow</column>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="0">
+<keys size="9">Instance, Module, min, max, min, max, min, max, Type</keys>
+<column name="call_ln0_entry_proc_fu_110">entry_proc, 0, 0, 0 ns, 0 ns, 0, 0, no</column>
+<column name="grp_dataflow_in_loop_VITIS_LOOP_92_1_1_Loop_VITIS_LOOP_99_2_proc_fu_117">dataflow_in_loop_VITIS_LOOP_92_1_1_Loop_VITIS_LOOP_99_2_proc, 47, 47, 0.235 us, 0.235 us, 36, 36, loop auto-rewind stp (delay=0 clock cycles(s))</column>
+<column name="grp_load_input_fu_126">load_input, 474, 474, 2.370 us, 2.370 us, 474, 474, no</column>
+<column name="grp_conv_2_13_13_3_3_2_11_11_1_1_5_1_5_5_2_3_s_fu_135">conv_2_13_13_3_3_2_11_11_1_1_5_1_5_5_2_3_s, 561, 561, 2.805 us, 2.805 us, 561, 561, no</column>
+<column name="grp_out_conv2mem_2_13_13_3_3_2_11_11_1_162_1_1_5_5_2_3_s_fu_590">out_conv2mem_2_13_13_3_3_2_11_11_1_162_1_1_5_5_2_3_s, ?, ?, ?, ?, ?, ?, no</column>
+</table>
+</item>
+<item name = "Loop"><table name="" hasTotal="0">
+<keys size="8">Loop Name, min, max, Latency, achieved, target, Count, Pipelined</keys>
+</table>
+</item>
+</section>
+</item>
+</section>
+</item>
+</section>
+</profile>

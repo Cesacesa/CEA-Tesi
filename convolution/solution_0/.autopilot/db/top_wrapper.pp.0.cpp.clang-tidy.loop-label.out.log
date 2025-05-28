@@ -1,0 +1,210 @@
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:32638:5: warning: Added loop label VITIS_LOOP_676_1:   [xilinx-label-all-loops]
+    for (unsigned i = low; i != high+1; ++i) {
+    ^~~
+    VITIS_LOOP_676_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:32638:5: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:32652:5: warning: Added loop label VITIS_LOOP_690_1:   [xilinx-label-all-loops]
+    for (unsigned i = low; i != high+1; ++i) {
+    ^~~
+    VITIS_LOOP_690_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:32652:5: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:32666:5: warning: Added loop label VITIS_LOOP_704_1:   [xilinx-label-all-loops]
+    for (unsigned i = low; i != high+1; ++i) {
+    ^~~
+    VITIS_LOOP_704_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:32666:5: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:34300:7: warning: Added loop label VITIS_LOOP_1248_1:   [xilinx-label-all-loops]
+      for (i = 0; i < __N - 1; ++i) {
+      ^~~
+      VITIS_LOOP_1248_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:34300:7: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36850:5: warning: Added loop label VITIS_LOOP_127_1:   [xilinx-label-all-loops]
+    for (size_t i = 0; i < N; ++i) {
+    ^~~
+    VITIS_LOOP_127_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36850:5: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36866:5: warning: Added loop label VITIS_LOOP_143_1:   [xilinx-label-all-loops]
+    for (size_t i = 0; i < N; ++i) {
+    ^~~
+    VITIS_LOOP_143_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36866:5: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36882:75: warning: Added loop label VITIS_LOOP_169_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator ++() { pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                          ^~~
+                                                                          VITIS_LOOP_169_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36882:75: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36887:75: warning: Added loop label VITIS_LOOP_170_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator --() { pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                          ^~~
+                                                                          VITIS_LOOP_170_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36887:75: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36896:106: warning: Added loop label VITIS_LOOP_198_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator +=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                         ^~~
+                                                                                                         VITIS_LOOP_198_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36896:106: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36901:106: warning: Added loop label VITIS_LOOP_199_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator -=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                         ^~~
+                                                                                                         VITIS_LOOP_199_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36901:106: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36906:106: warning: Added loop label VITIS_LOOP_200_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator *=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                         ^~~
+                                                                                                         VITIS_LOOP_200_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36906:106: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36911:106: warning: Added loop label VITIS_LOOP_201_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator /=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                         ^~~
+                                                                                                         VITIS_LOOP_201_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36911:106: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36916:106: warning: Added loop label VITIS_LOOP_202_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator %=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                         ^~~
+                                                                                                         VITIS_LOOP_202_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36916:106: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36921:106: warning: Added loop label VITIS_LOOP_203_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator &=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                         ^~~
+                                                                                                         VITIS_LOOP_203_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36921:106: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36926:106: warning: Added loop label VITIS_LOOP_204_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator |=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                         ^~~
+                                                                                                         VITIS_LOOP_204_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36926:106: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36931:106: warning: Added loop label VITIS_LOOP_205_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator ^=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                         ^~~
+                                                                                                         VITIS_LOOP_205_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36931:106: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36936:107: warning: Added loop label VITIS_LOOP_206_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator <<=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                          ^~~
+                                                                                                          VITIS_LOOP_206_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36936:107: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36941:107: warning: Added loop label VITIS_LOOP_207_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) vector &operator >>=(const vector &rhs) { pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                          ^~~
+                                                                                                          VITIS_LOOP_207_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36941:107: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36947:91: warning: Added loop label VITIS_LOOP_222_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) T reduce_add() const { pragma(); T res = data[0]; for (size_t i = 1; i < N; ++i) {
+                                                                                          ^~~
+                                                                                          VITIS_LOOP_222_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36947:91: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36952:92: warning: Added loop label VITIS_LOOP_223_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) T reduce_mult() const { pragma(); T res = data[0]; for (size_t i = 1; i < N; ++i) {
+                                                                                           ^~~
+                                                                                           VITIS_LOOP_223_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36952:92: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36957:91: warning: Added loop label VITIS_LOOP_224_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) T reduce_and() const { pragma(); T res = data[0]; for (size_t i = 1; i < N; ++i) {
+                                                                                          ^~~
+                                                                                          VITIS_LOOP_224_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36957:91: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36962:90: warning: Added loop label VITIS_LOOP_225_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) T reduce_or() const { pragma(); T res = data[0]; for (size_t i = 1; i < N; ++i) {
+                                                                                         ^~~
+                                                                                         VITIS_LOOP_225_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36962:90: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36967:91: warning: Added loop label VITIS_LOOP_226_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) T reduce_xor() const { pragma(); T res = data[0]; for (size_t i = 1; i < N; ++i) {
+                                                                                          ^~~
+                                                                                          VITIS_LOOP_226_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36967:91: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36973:132: warning: Added loop label VITIS_LOOP_256_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) friend bool operator <(const vector &lhs, const vector &rhs) { lhs.pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                                                   ^~~
+                                                                                                                                   VITIS_LOOP_256_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36973:132: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36978:133: warning: Added loop label VITIS_LOOP_257_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) friend bool operator <=(const vector &lhs, const vector &rhs) { lhs.pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                                                    ^~~
+                                                                                                                                    VITIS_LOOP_257_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36978:133: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36983:133: warning: Added loop label VITIS_LOOP_258_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) friend bool operator ==(const vector &lhs, const vector &rhs) { lhs.pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                                                    ^~~
+                                                                                                                                    VITIS_LOOP_258_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36983:133: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36988:133: warning: Added loop label VITIS_LOOP_259_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) friend bool operator !=(const vector &lhs, const vector &rhs) { lhs.pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                                                    ^~~
+                                                                                                                                    VITIS_LOOP_259_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36988:133: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36993:133: warning: Added loop label VITIS_LOOP_260_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) friend bool operator >=(const vector &lhs, const vector &rhs) { lhs.pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                                                    ^~~
+                                                                                                                                    VITIS_LOOP_260_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36993:133: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36998:132: warning: Added loop label VITIS_LOOP_261_1:   [xilinx-label-all-loops]
+  inline __attribute__((always_inline)) friend bool operator >(const vector &lhs, const vector &rhs) { lhs.pragma(); rhs.pragma(); for (size_t i = 0; i < N; ++i) {
+                                                                                                                                   ^~~
+                                                                                                                                   VITIS_LOOP_261_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:36998:132: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37211:9: warning: Added loop label VITIS_LOOP_41_1:   [xilinx-label-all-loops]
+        for (int s_fh = 0; s_fh < FH; s_fh++){
+        ^~~
+        VITIS_LOOP_41_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37211:9: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37212:13: warning: Added loop label VITIS_LOOP_42_2:   [xilinx-label-all-loops]
+            for (int s_fw = 0; s_fw < FW; s_fw++){
+            ^~~
+            VITIS_LOOP_42_2: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37212:13: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37213:17: warning: Added loop label VITIS_LOOP_43_3:   [xilinx-label-all-loops]
+                for (int s_ich = 0; s_ich < ICH; s_ich += ICH_PAR) {
+                ^~~
+                VITIS_LOOP_43_3: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37213:17: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37214:21: warning: Added loop label VITIS_LOOP_44_4:   [xilinx-label-all-loops]
+                    for (int s_ich_par = 0; s_ich_par < ICH_PAR; s_ich_par++){
+                    ^~~
+                    VITIS_LOOP_44_4: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37214:21: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37277:13: warning: Added loop label VITIS_LOOP_9_1:   [xilinx-label-all-loops]
+            for (int j = 0; j < (2 * (WINDOW_IN * 3) * (WINDOW_IN * 3)) / (3 * 3 * 1); j++) {
+            ^~~
+            VITIS_LOOP_9_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37277:13: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37305:5: warning: Added loop label VITIS_LOOP_37_1:   [xilinx-label-all-loops]
+    for (int s_ih = 0; s_ih < WINDOW_OUT * FW_OUT; s_ih += FH_OUT) {
+    ^~~
+    VITIS_LOOP_37_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37305:5: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37306:9: warning: Added loop label VITIS_LOOP_38_2:   [xilinx-label-all-loops]
+        for (int s_fh = 0; s_fh < FH_OUT; s_fh++) {
+        ^~~
+        VITIS_LOOP_38_2: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37306:9: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37308:13: warning: Added loop label VITIS_LOOP_40_3:   [xilinx-label-all-loops]
+            for (int s_iw = 0; s_iw < WINDOW_OUT * FW_OUT; s_iw += FW_OUT) {
+            ^~~
+            VITIS_LOOP_40_3: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37308:13: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37309:17: warning: Added loop label VITIS_LOOP_41_4:   [xilinx-label-all-loops]
+                for (int s_fw = 0; s_fw < FW_OUT; s_fw++) {
+                ^~~
+                VITIS_LOOP_41_4: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37309:17: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37310:21: warning: Added loop label VITIS_LOOP_42_5:   [xilinx-label-all-loops]
+                    for (int s_ich = 0; s_ich < OCH; s_ich += ICH_PAR_OUT) {
+                    ^~~
+                    VITIS_LOOP_42_5: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37310:21: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37311:25: warning: Added loop label VITIS_LOOP_43_6:   [xilinx-label-all-loops]
+                        for (int s_ich_par = 0; s_ich_par < ICH_PAR_OUT; s_ich_par++) {
+                        ^~~
+                        VITIS_LOOP_43_6: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37311:25: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37364:2: warning: Added loop label VITIS_LOOP_92_1:   [xilinx-label-all-loops]
+ for (int img = 0; img < NR_IMG; img++) {
+ ^~~
+ VITIS_LOOP_92_1: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37364:2: note: FIX-IT applied suggested code changes
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37371:2: warning: Added loop label VITIS_LOOP_99_2:   [xilinx-label-all-loops]
+ for (int i = 0; i < 3 * 3 * 2 * 2; i++) {
+ ^~~
+ VITIS_LOOP_99_2: 
+/home/lorenzor/workspace/convolution/convolution/solution_0/.autopilot/db/top_wrapper.pp.0.cpp:37371:2: note: FIX-IT applied suggested code changes

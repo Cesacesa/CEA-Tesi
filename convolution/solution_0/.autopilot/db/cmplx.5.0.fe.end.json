@@ -1,0 +1,172 @@
+{
+    "1": {
+        "name": "load_input_Pipeline_load_input_loop_VITIS_LOOP_9_1",
+        "file": "top_wrapper.cpp",
+        "fileloc": "3",
+        "instructions": "2322",
+        "total_instructions": "2322",
+        "calls": "",
+        "basicblocks": "472",
+        "loads": {
+            "L": "453",
+            "T": "1"
+        },
+        "stores": {
+            "L": "456"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "0": {
+        "name": "top_wrapper",
+        "file": "top_wrapper.cpp",
+        "fileloc": "82",
+        "instructions": "27",
+        "total_instructions": "9159",
+        "calls": "2",
+        "basicblocks": "4",
+        "loops": {
+            "L": "1"
+        }
+    },
+    "2": {
+        "name": "dataflow_in_loop_VITIS_LOOP_92_1.1",
+        "file": "top_wrapper.cpp",
+        "fileloc": "93",
+        "instructions": "923",
+        "total_instructions": "9132",
+        "calls": "4 6 10 9 7",
+        "basicblocks": "1"
+    },
+    "3": {
+        "name": "conv_Pipeline_VITIS_LOOP_41_1_VITIS_LOOP_42_2_VITIS_LOOP_43_3",
+        "file": "top_wrapper.cpp",
+        "fileloc": "123",
+        "instructions": "205",
+        "total_instructions": "205",
+        "calls": "",
+        "basicblocks": "14",
+        "loads": {
+            "L": "41"
+        },
+        "stores": {
+            "L": "46"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "4": {
+        "name": "entry_proc",
+        "file": "top_wrapper.cpp",
+        "fileloc": "0",
+        "instructions": "4",
+        "total_instructions": "4",
+        "calls": "",
+        "basicblocks": "1"
+    },
+    "5": {
+        "name": "conv<2, 13, 13, 3, 3, 2, 11, 11, 1, 1, 5, 1, 5, 5, 2, 3>_Pipeline_L5_L4_L3",
+        "file": "top_wrapper.cpp",
+        "fileloc": "123",
+        "instructions": "1704",
+        "total_instructions": "1704",
+        "calls": "",
+        "basicblocks": "507",
+        "loads": {
+            "L": "6"
+        },
+        "stores": {
+            "L": "12"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "6": {
+        "name": "dataflow_in_loop_VITIS_LOOP_92_1.1_",
+        "file": "top_wrapper.cpp",
+        "fileloc": "0",
+        "instructions": "25",
+        "total_instructions": "25",
+        "calls": "",
+        "basicblocks": "5",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "7": {
+        "name": "out_conv2mem<2, 13, 13, 3, 3, 2, 11, 11, 1, 162, 1, 1, 5, 5, 2, 3>",
+        "file": "top_wrapper.cpp",
+        "fileloc": "129",
+        "instructions": "562",
+        "total_instructions": "666",
+        "calls": "8",
+        "basicblocks": "10",
+        "loads": {
+            "L": "3"
+        },
+        "stores": {
+            "L": "4"
+        },
+        "loops": {
+            "L": "1",
+            "N": "2"
+        }
+    },
+    "8": {
+        "name": "out_conv2mem_Pipeline_VITIS_LOOP_41_4",
+        "file": "top_wrapper.cpp",
+        "fileloc": "129",
+        "instructions": "104",
+        "total_instructions": "104",
+        "calls": "",
+        "basicblocks": "6",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "9": {
+        "name": "conv<2, 13, 13, 3, 3, 2, 11, 11, 1, 1, 5, 1, 5, 5, 2, 3>",
+        "file": "top_wrapper.cpp",
+        "fileloc": "123",
+        "instructions": "1924",
+        "total_instructions": "3833",
+        "calls": "3 5",
+        "basicblocks": "4",
+        "loads": {
+            "L": "487"
+        },
+        "stores": {
+            "L": "38"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "10": {
+        "name": "load_input",
+        "file": "top_wrapper.cpp",
+        "fileloc": "4",
+        "instructions": "1359",
+        "total_instructions": "3681",
+        "calls": "1",
+        "basicblocks": "1",
+        "loads": {
+            "L": "450"
+        }
+    }
+}

@@ -1,0 +1,59 @@
+{
+  "0": {
+    "basicblocks": 4,
+    "calls": "3",
+    "file": "top_wrapper.cpp",
+    "fileloc": 82,
+    "instructions": 21,
+    "name": "top_wrapper",
+    "total_instructions": 10598
+  },
+  "1": {
+    "basicblocks": 530,
+    "calls": "",
+    "file": "conv.h",
+    "fileloc": 20,
+    "instructions": 4074,
+    "name": "conv<2, 13, 13, 3, 3, 2, 11, 11, 1, 1, 5, 1, 5, 5, 2, 3>",
+    "stores": {
+      "L": 450
+    },
+    "total_instructions": 4074
+  },
+  "2": {
+    "basicblocks": 474,
+    "calls": "",
+    "file": "top_wrapper.cpp",
+    "fileloc": 3,
+    "instructions": 1863,
+    "loads": {
+      "L": 1
+    },
+    "name": "load_input",
+    "stores": {
+      "L": 450
+    },
+    "total_instructions": 1863
+  },
+  "3": {
+    "basicblocks": 3,
+    "calls": "2 1 4",
+    "file": "top_wrapper.cpp",
+    "fileloc": 0,
+    "instructions": 4522,
+    "loads": {
+      "L": 900
+    },
+    "name": "_Z11top_wrapperPA9_A50_6ap_intILi45EEPKiPA11_A11_A2_S0__VITIS_LOOP_99_2",
+    "total_instructions": 10577
+  },
+  "4": {
+    "basicblocks": 13,
+    "calls": "",
+    "file": "top_wrapper.cpp",
+    "fileloc": 25,
+    "instructions": 118,
+    "name": "out_conv2mem<2, 13, 13, 3, 3, 2, 11, 11, 1, 162, 1, 1, 5, 5, 2, 3>",
+    "total_instructions": 118
+  }
+}
