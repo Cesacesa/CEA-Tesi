@@ -12,6 +12,20 @@ void load_input(memory_in_conv_t<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR, CONV_0_IC
             }
         }
 }
+
+template<
+    int FW,
+    int FH,
+    int ICH,
+    int OCH,
+    typename T = ap_int<8>>
+void kernel2conv(const int* filter_val, hls::stream<T>& filter2conv) {
+    const int total_kernel = FW * FH * ICH * OCH;
+    for (int i = 0; i < total_kernel; i++) {
+        #pragma HLS PIPELINE II=1
+        filter2conv.write(filter_val[i]);
+    }
+}
    
 template< int ICH, int IW, int IH,
     int FW_IN, int FH_IN,
@@ -80,13 +94,15 @@ void out_conv2mem(memory_out_conv_t<FW_OUT, FH_OUT, ICH_PAR_OUT, OCH_OUT, WINDOW
 
 
 void top_wrapper(memory_in_t memory_in[NR_IMG], 
-    const int* filter_val, 
+    const int* filter_val,  
+    const int* filter_val_2, 
     memory_out_t memory[NR_IMG])
 {
     #pragma HLS INTERFACE m_axi port=memory offset=slave bundle=gmem1
     #pragma HLS INTERFACE s_axilite port=return bundle=control
     #pragma HLS INTERFACE s_axilite port=memory_in bundle=gmem3
     #pragma HLS INTERFACE m_axi port=filter_val offset=slave bundle=gmem2 depth=100
+    // #pragma HLS INTERFACE m_axi port=filter_val_2 offset=slave bundle=gmem4 depth=100
 
     
     for (int img = 0; img < NR_IMG; img++) {
@@ -96,17 +112,20 @@ void top_wrapper(memory_in_t memory_in[NR_IMG],
         // #pragma HLS STREAM variable=filter2conv2 depth=100
 
         //write the value of the filter in the stream filter2conv
-        for (int i = 0; i < CONV_0_FW * CONV_0_FH * CONV_0_ICH * CONV_0_OCH; i++) {
-            #pragma HLS PIPELINE II=1
-            filter2conv.write((ap_int<8>)filter_val[i]);
-        }
+        // for (int i = 0; i < CONV_0_FW * CONV_0_FH * CONV_0_ICH * CONV_0_OCH; i++) {
+        //     #pragma HLS PIPELINE II=1
+        //     filter2conv.write((ap_int<8>)filter_val[i]);
+        // }
         //write the value of the filter in the stream filter2conv2
         // for (int i = 0; i < CONV_1_FW * CONV_1_FH * CONV_0_OCH * CONV_1_OCH; i++) {
         //     #pragma HLS PIPELINE II=1
         //     filter2conv2.write((ap_int<8>)filter_val[i]);
         // }
-        
+
         #pragma HLS DATAFLOW
+        kernel2conv<CONV_0_FW, CONV_0_FH, CONV_0_ICH, CONV_0_OCH>(filter_val, filter2conv);
+        //kernel2conv<CONV_1_FW, CONV_1_FH, CONV_0_OCH, CONV_1_OCH>(filter_val_2, filter2conv2);
+        
         memory_in_conv_t<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR, CONV_0_ICH, WINDOW_IN> memory_in_local;
         #pragma HLS ARRAY_PARTITION variable=memory_in_local complete dim=0
 

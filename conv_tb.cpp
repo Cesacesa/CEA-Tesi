@@ -116,7 +116,7 @@ int main(){
         }
     }
 
-    top_wrapper(memory_in_local, kernel, memory_out_local);
+    top_wrapper(memory_in_local, kernel, kernel, memory_out_local);
 
     int output_conv[CONV_0_OH * CONV_0_OW * CONV_0_OCH] = {0};
     convoluzione_gold< CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, CONV_0_STRIDE>(input, output_conv);
