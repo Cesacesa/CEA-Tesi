@@ -57,7 +57,7 @@ class SimpleCNNQuant(nn.Module):
 
 def main():
     transform = transforms.Compose([transforms.ToTensor()])
-    train_dataset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
+    train_dataset = torchvision.datasets.CIFAR10(root='../data', train=True, download=True, transform=transform)
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -67,13 +67,19 @@ def main():
     dummy_input = torch.randn(1, 3, 32, 32, device=device)
     with torch.no_grad():
         model(dummy_input)
+    import os
 
+    # Percorso dove salvare
+    save_dir = "./Quantization/Nets"
+    save_path = os.path.join(save_dir, "simple_cnn_quant_cifar10_qcdq.onnx")
+# Crea la directory se non esiste
+    os.makedirs(save_dir, exist_ok=True)
     # Export ONNX con Q/DQ (Quantize/Dequantize)
     from brevitas.export import export_onnx_qcdq
     export_onnx_qcdq(
         model,
         dummy_input,
-        "simple_cnn_quant_cifar10_qcdq.onnx",
+        save_path,
         input_names=["input"],  # Nome esplicito per l'input
         output_names=["output"] # Nome esplicito per l'output
     )
@@ -81,3 +87,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+     #faare inference con onnxruntime prendere i dati prima della quantizzaione della relu
