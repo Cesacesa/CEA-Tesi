@@ -96,7 +96,7 @@ def main():
 
     save_dir = "./Quantization/Nets"
     os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, "simple_cnn_quant_cifar10_qcdq.onnx")
+    save_path = os.path.join(save_dir, "simple_cnn_quant_cifar10_qcdq_fixed.onnx")
 
     from brevitas.export import export_onnx_qcdq
     export_onnx_qcdq(
@@ -133,16 +133,16 @@ def main():
     os.makedirs("./Dump_files", exist_ok=True)
 
     # Dump input image
-    dump_tensor_to_txt(dummy_input_np, "./Dump_files/input_image.txt", "Input image tensor")
+    dump_tensor_to_txt(dummy_input_np, "./Dump_files/input_image_fixed_point.txt", "Input image tensor")
 
     # Dump final prediction
-    dump_tensor_to_txt(pred_onnx[0], "./Dump_files/output_prediction.txt", "Output from ONNX model")
+    dump_tensor_to_txt(pred_onnx[0], "./Dump_files/output_prediction_fixed_point.txt", "Output from ONNX model")
 
     # Dump conv1 output
-    dump_tensor_to_txt(conv1_output[0], "./Dump_files/conv1_output.txt", "Output of conv1")
+    dump_tensor_to_txt(conv1_output[0], "./Dump_files/conv1_output_fixed_point.txt", "Output of conv1")
 
     # Dump ReLU output
-    dump_tensor_to_txt(relu_output[0], "./Dump_files/relu_output.txt", "Output of ReLU quantized")
+    dump_tensor_to_txt(relu_output[0], "./Dump_files/relu_output_fixed_point.txt", "Output of ReLU quantized")
 
     print("Tutti i file sono stati salvati in ./Dump_files")
 
