@@ -34,14 +34,7 @@ def dump_tensor_to_txt(tensor, path, label):
         else:
             np.savetxt(f, tensor.flatten(), fmt='%r')
 
-def show_cifar_image(image, label):
-    """Visualizza un'immagine CIFAR-10 con la sua label"""
-    image = image / 2 + 0.5  # Un-normalize
-    npimg = image.numpy()
-    plt.imshow(np.transpose(npimg, (1, 2, 0)))
-    plt.title(f"Label: {label}")
-    plt.savefig("./Quantization/Nets/input_image.png")
-    plt.close()
+
 
 class SimpleCNNQuantFP(nn.Module):
     def __init__(self, num_classes=10):
@@ -112,10 +105,7 @@ def main():
     selected_idx = target_indices[0]
     
     image, label = train_dataset[selected_idx]
-    
-    # Visualizza l'immagine selezionata
-    show_cifar_image(image, class_names[label])
-    print(f"Selected image: {class_names[label]} (index {selected_idx})")
+
     
     # Prepara l'input per il modello
     dummy_input = image.unsqueeze(0).to(device)  # Aggiungi dimensione batch
