@@ -137,10 +137,11 @@ def main():
     # Identifica i nomi corretti dei nodi
     valid_outputs = []
     potential_outputs = [
-        "/conv1/Conv_output_0",
-        "/relu/act_quant/activation_impl/Relu_output_0",
-        "output"
-    ]
+    "/conv1/Conv_output_0",
+    "/relu/act_quant/activation_impl/Relu_output_0",
+    "/relu/act_quant/export_handler/QuantizeLinear_output_0",
+    "output"
+]
     
     for name in potential_outputs:
         for node in model_onnx.graph.node:
@@ -176,17 +177,18 @@ def main():
     for output, name in zip(all_outputs, output_names):
         if "conv1" in name:
             fname = "conv1_output_full_precision.txt"
-        elif "relu" in name:
+        elif "Relu" in name:
             fname = "relu_output_full_precision.txt"
-        elif "output" == name:
+        elif "QuantizeLinear" in name:
+            fname = "quantize_linear_output_full_precision.txt"
+        elif name == "output":
             fname = "output_full_precision.txt"
         else:
             fname = f"{name.replace('/', '_')}_full_precision.txt"
-        
         dump_tensor_to_txt(output, os.path.join(dump_dir, fname), name)
 
     print(f"Risultati salvati con massima precisione in: {dump_dir}")
-    print(f"Immagine input salvata in: ./Quantization/Nets/input_image.png")
+
 
 if __name__ == "__main__":
     main()
