@@ -110,7 +110,11 @@ def main():
 
     model_onnx = onnx.load(save_path)
 
-    for node_name in ["/conv1/Conv_output_0", "/relu/act_quant/activation_impl/Relu_output_0"]:
+    for node_name in [
+    "/conv1/Conv_output_0",
+    "/relu/act_quant/activation_impl/Relu_output_0",
+    "/relu/act_quant/export_handler/QuantizeLinear_output_0"
+]:
         intermediate_layer_info = helper.ValueInfoProto()
         intermediate_layer_info.name = node_name
         model_onnx.graph.output.append(intermediate_layer_info)
@@ -128,6 +132,7 @@ def main():
     pred_onnx = ort_session.run([output_name], {input_name: dummy_input_np})
     conv1_output = ort_session.run(["/conv1/Conv_output_0"], {input_name: dummy_input_np})
     relu_output = ort_session.run(["/relu/act_quant/activation_impl/Relu_output_0"], {input_name: dummy_input_np})
+    quantize_output = ort_session.run(["/relu/act_quant/export_handler/QuantizeLinear_output_0"], {input_name: dummy_input_np})
 
     # Dump directory
     os.makedirs("./Dump_files", exist_ok=True)
@@ -140,6 +145,9 @@ def main():
 
     # Dump conv1 output
     dump_tensor_to_txt(conv1_output[0], "./Dump_files/conv1_output_fixed_point.txt", "Output of conv1")
+
+    # Dump QuantizeLinear output
+    dump_tensor_to_txt(quantize_output[0], "./Dump_files/quantize_linear_output_fixed_point.txt", "Output of QuantizeLinear after ReLU")
 
     # Dump ReLU output
     dump_tensor_to_txt(relu_output[0], "./Dump_files/relu_output_fixed_point.txt", "Output of ReLU quantized")
