@@ -7,6 +7,7 @@
 #include "input.h"
 #include <ap_int.h>
 #include "parameter.h"
+#include "input_ap_int.h"
 
 template< int ICH, int IW, int IH,
     int FW_IN, int FH_IN,
@@ -43,103 +44,120 @@ template< int ICH, int IW, int IH,
     int FW_IN, int FH_IN,
     int OCH, int OW, int OH, 
     int ICH_PAR_IN,
-    int WINDOW_IN,
-    int NR_IMG>
-void input2conv(ap_int<45> memory[NR_IMG][FW_IN * FH_IN * ICH_PAR_IN][(ICH * (WINDOW_IN * FW_IN) * (WINDOW_IN * FH_IN)) / (FW_IN * FH_IN * ICH_PAR_IN)]){
-    int s_window_h = 0; 
-    int in_idx = 0;
-    int s_mem_i = 0;
-    int s_mem_i_depth = 0;
-    int special_row_window = 0;
-    int special_col_window = 0;
-    special_row_window = FW_IN - ((IW / FW_IN +1) * FW_IN - IW);
-    special_col_window = FH_IN - ((IH / FH_IN +1) * FH_IN - IH);
-    for (int img = 0; img < NR_IMG; img++) {
-        in_idx = 0;
-        s_mem_i = 0;
-        s_window_h = 0;
-        s_mem_i_depth = 0;
-        for (int s_ih = 0; s_ih < WINDOW_IN * FW_IN; s_ih += FH_IN) {
-            for (int s_fh = 0; s_fh < FH_IN; s_fh++) {
-            int s_window_w = 0;  
-                for (int s_iw = 0; s_iw < WINDOW_IN * FW_IN; s_iw += FW_IN) {
-                    for (int s_fw = 0; s_fw < FW_IN; s_fw++) {
-                        for (int s_ich = 0; s_ich < ICH; s_ich += ICH_PAR_IN) {
-                            for (int s_ich_par = 0; s_ich_par < ICH_PAR_IN; s_ich_par++) {
-                            s_mem_i = (s_fw + s_fh * FW_IN) + s_ich_par * FW_IN * FH_IN; 
-                            s_mem_i_depth = s_window_h + s_window_w + s_ich / ICH_PAR_IN;
-                            memory[img][s_mem_i][s_mem_i_depth] = input[in_idx]; //SENZA ICH_PAR
-                            in_idx++; 
-                            }
-                        }
-                        if (s_iw >= IW - FW_IN) { // last filter window
-                            if (special_row_window != 0) { //if IW % FW != 0
-                                special_row_window--; // decrement the special row window in case there are more than one
-                                if (special_row_window == 0){ // if the special row window is 0, we need to pass to the next row window
-                                    special_row_window = FW_IN - ((IW / FW_IN +1) * FW_IN - IW); // reset the special row window
-                                    s_fw += (FW_IN); 
+    int OUT_SIZE_IN,
+    int STRIDE,    
+    int ICH_PAR_OUT,
+    int FW_OUT, int FH_OUT, int OCH_OUT,
+    int WINDOW_OUT>
+void out_conv2mem(memory_out_t* output_flat,
+                  ap_int<45> memory[][CONV_2_OH][CONV_2_OW][CONV_2_OCH],
+                  int NR_IMG,
+                  int img)
+{
+    int idx = 0;
+    int s_window_h = 0;
+    int special_row_window = FW_OUT - ((OW / FW_OUT + 1) * FW_OUT - OW);
+    int special_col_window = FH_OUT - ((OH / FH_OUT + 1) * FH_OUT - OH);
+    for (int s_ih = 0; s_ih < WINDOW_OUT * FH_OUT; s_ih += FH_OUT) {
+            int s_window_w = 0;
+            for (int s_iw = 0; s_iw < WINDOW_OUT * FW_OUT; s_iw += FW_OUT) {
+                for (int s_ich = 0; s_ich < OCH; s_ich += ICH_PAR_OUT) {
+                    for (int s_ich_par = 0; s_ich_par < ICH_PAR_OUT; s_ich_par++) {
+                        for (int s_fh = 0; s_fh < FH_OUT; s_fh++) {
+                            for (int s_fw = 0; s_fw < FW_OUT; s_fw++) {
+                            
+                                int s_mem_i = (s_fw + s_fh * FW_OUT) + s_ich_par * FW_OUT * FH_OUT;
+                                int s_mem_i_depth = s_window_h + s_window_w + s_ich / ICH_PAR_OUT;
+
+                                // Leggi da output_flat
+                                int val = output_flat[idx++];
+                                int in_h = s_ih + s_fh;
+                                int in_w = s_iw + s_fw;
+                                int in_c = s_ich + s_ich_par;
+
+                                if (in_h < IH && in_w < IW && in_c < ICH) {
+                                    memory[img][in_h][in_w][in_c] = val;
                                 }
                             }
-                        }    
-                    }
-                    s_window_w += ICH/ICH_PAR_IN;
-                }
-                if (s_ih >= IH - FH_IN) { // last filter window
-                    if (special_col_window != 0) { //if IH % FH != 0
-                        special_col_window--;  // decrement the special col window in case there are more than one
-                        if (special_col_window == 0){ // if the special col window is 0, we need to pass to the next row window
-                            special_col_window = FH_IN - ((IH / FH_IN +1) * FH_IN - IH); // reset the special col window
-                            s_fh += FH_IN; 
                         }
-                    }
+                        s_window_w += OCH / ICH_PAR_OUT;
+                       
+                    }         
+            } 
+            if (s_iw >= OW - FW_OUT) {
+                if (special_row_window != 0) {
+                    special_row_window--;
+                    if (special_row_window == 0) {
+                        special_row_window = FW_OUT - ((OW / FW_OUT + 1) * FW_OUT - OW);
+                        s_iw += FW_OUT;
+                    }       
                 }
             }
-            s_window_h+= ICH/ICH_PAR_IN * (WINDOW_IN);
-        }
+            s_window_h += OCH / ICH_PAR_OUT * WINDOW_OUT; 
+        } 
+        if (s_ih >= OH - FH_OUT) {
+            if (special_col_window != 0) {
+                special_col_window--;
+                if (special_col_window == 0) {
+                    special_col_window = FH_OUT - ((OH / FH_OUT + 1) * FH_OUT - OH);
+                    s_ih += FH_OUT;
+                }
+            }
+        }          
     }
+    
 }
 
 
+
 int main(){
+    constexpr int NR_IMG = 5; //define number of images
 
-    ap_int<45> memory_in[NR_IMG][CONV_0_FW * CONV_0_FH * CONV_0_ICH_PAR][(CONV_0_ICH * (WINDOW_IN * CONV_0_FW) * (WINDOW_IN * CONV_0_FH)) / (CONV_0_FW * CONV_0_FH * CONV_0_ICH_PAR)] = {0};
-    input2conv<CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, WINDOW_IN, NR_IMG>(memory_in);
+    memory_out_t memory_out_local[CONV_2_OUTPUT_SIZE * NR_IMG] = {0}; // Local memory for output
 
-    memory_in_t memory_in_local[NR_IMG] = {0};
-    memory_out_t memory_out_local[NR_IMG] = {0};
+    top_wrapper(input_ap_int, NR_IMG, kernel, kernel, memory_out_local); // Call the top wrapper function
+    
+    ap_int<45> output[NR_IMG][CONV_2_OH][CONV_2_OW][CONV_2_OCH] = {0}; // Output memory to store the golden results
 
     for (int img = 0; img < NR_IMG; img++) {
-        for (int i = 0; i < CONV_0_FW * CONV_0_FH * CONV_0_ICH_PAR; i++) {
-            for (int j = 0; j < (CONV_0_ICH * (WINDOW_IN * CONV_0_FW) * (WINDOW_IN * CONV_0_FH)) / (CONV_0_FW * CONV_0_FH * CONV_0_ICH_PAR); j++) {
-                memory_in_local[img][i][j] = memory_in[img][i][j];
-            }
-        }
+        std::cout << "img: " << img << std::endl;
+        out_conv2mem<CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_1_FW, CONV_1_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_1_ICH_PAR, CONV_1_OUTPUT_SIZE, CONV_1_STRIDE, CONV_2_ICH_PAR, CONV_2_FW, CONV_2_FH, CONV_2_OCH, WINDOW_OUT_2>(memory_out_local, output, NR_IMG, img);
     }
-
-    top_wrapper(memory_in_local, kernel, kernel, memory_out_local);
+    std::cout << "memory hw: " << std::endl;
+    for (int img = 0; img < NR_IMG; img++) {    
+        for (int k = 0; k < CONV_1_OCH; k++) {
+            for (int i = 0; i < CONV_1_OH; i++) {
+                for (int j = 0; j < CONV_1_OW; j++) {
+                    std::cout << output[img][i][j][k] << " ";
+                }
+                std::cout << std::endl;
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+    }
 
     int output_conv[CONV_0_OH * CONV_0_OW * CONV_0_OCH] = {0};
     convoluzione_gold< CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, CONV_0_STRIDE>(input, output_conv);
     
-    // int output_conv_2[CONV_1_OH * CONV_1_OW * CONV_1_OCH] = {0};
-    // convoluzione_gold<CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_1_FW, CONV_1_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_1_ICH_PAR, CONV_1_STRIDE>(output_conv, output_conv_2);
+    int output_conv_2[CONV_1_OH * CONV_1_OW * CONV_1_OCH] = {0};
+    convoluzione_gold<CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_1_FW, CONV_1_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_1_ICH_PAR, CONV_1_STRIDE>(output_conv, output_conv_2);
     
-    // int golden_out[NR_IMG][CONV_1_OH][CONV_1_OW][CONV_1_OCH] = {0}; //use if there is 2 conv and modify the parameter below
-    int golden_out[NR_IMG][CONV_0_OH][CONV_0_OW][CONV_0_OCH] = {0}; //use if there is 1 conv
+    int golden_out[NR_IMG][CONV_1_OH][CONV_1_OW][CONV_1_OCH] = {0};
     for (int img = 0; img < NR_IMG; img++) {
-        for (int i = 0; i < CONV_0_OH; i++) {
-            for (int j = 0; j < CONV_0_OW; j++) {
-                for (int k = 0; k < CONV_0_OCH; k++) {
-                    golden_out[img][i][j][k] = output_conv[i * CONV_0_OW * CONV_0_OCH + j * CONV_0_OCH + k];
+        for (int i = 0; i < CONV_1_OH; i++) {
+            for (int j = 0; j < CONV_1_OW; j++) {
+                for (int k = 0; k < CONV_1_OCH; k++) {
+                    golden_out[img][i][j][k] = output_conv_2[i * CONV_1_OW * CONV_1_OCH + j * CONV_1_OCH + k];
                 }
             }
         }
     }
     std::cout << "golden_out_tb: " << std::endl;
     for (int img = 0; img < NR_IMG; img++) {
-        for (int k = 0; k < CONV_0_OCH; k++) {
-            for (int i = 0; i < CONV_0_OH; i++) {
-                for (int j = 0; j < CONV_0_OW; j++) {
+        for (int k = 0; k < CONV_1_OCH; k++) {
+            for (int i = 0; i < CONV_1_OH; i++) {
+                for (int j = 0; j < CONV_1_OW; j++) {
                     std::cout << golden_out[img][i][j][k] << " ";
                 }
                 std::cout << std::endl;
@@ -149,11 +167,11 @@ int main(){
         std::cout << std::endl;
     }
     for (int img = 0; img < NR_IMG; img++) {
-        for (int k = 0; k < CONV_0_OCH; k++) {
-            for (int i = 0; i < CONV_0_OH; i++) {
-                for (int j = 0; j < CONV_0_OW; j++) {
-                    if (memory_out_local[img][i][j][k] != golden_out[img][i][j][k]) {
-                        std::cout << "Mismatch at (" << i << ", " << j << ", " << k << "): " << memory_out_local[img][i][j][k] << " != " << golden_out[img][i][j][k] << std::endl;
+        for (int k = 0; k < CONV_1_OCH; k++) {
+            for (int i = 0; i < CONV_1_OH; i++) {
+                for (int j = 0; j < CONV_1_OW; j++) {
+                    if (output[img][i][j][k] != golden_out[img][i][j][k]) {
+                        std::cout << "Mismatch at (" << i << ", " << j << ", " << k << "): " << output[img][i][j][k] << " != " << golden_out[img][i][j][k] << std::endl;
                         return 1;
                     }
                 }
