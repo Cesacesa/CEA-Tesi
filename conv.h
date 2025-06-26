@@ -68,6 +68,11 @@ void conv(memory_in_conv_t<FW, FH, ICH_PAR, ICH, WINDOW_IN>& memory_in,
 
                                     s_mem_o = (s_ow) % FW_OUT + (s_oh * FH_OUT) % (FH_OUT * FW_OUT) + s_och_par * FH_OUT * FW_OUT;
                                     s_mem_o_depth = (s_ow / FW_OUT) * (OCH / ICH_PAR_OUT) + (s_oh / FH_OUT) * (OCH / ICH_PAR_OUT) * (WINDOW_OUT) + s_och / ICH_PAR_OUT;
+                                    
+                                    // implementing relu
+                                    if (sum < 0) {
+                                        sum = 0;
+                                    }
                                     out_mem[s_mem_o][s_mem_o_depth] = sum;
                                     if (s_ow >= OW - FW_OUT){
                                         if (special_row_window != 0){
