@@ -12,7 +12,6 @@ import os
 import matplotlib.pyplot as plt
 
 
-
 def dump_tensor_to_txt(tensor, path, label):
     """Salva un tensor numpy su file mantenendo la struttura matriciale con massima precisione"""
     with open(path, 'w') as f:
@@ -33,7 +32,6 @@ def dump_tensor_to_txt(tensor, path, label):
             f.write(" ".join([repr(val) for val in tensor]) + "\n")
         else:
             np.savetxt(f, tensor.flatten(), fmt='%r')
-
 
 
 class SimpleCNNQuantFP(nn.Module):
@@ -81,6 +79,7 @@ class SimpleCNNQuantFP(nn.Module):
         x = self.fc(x)
         return x
 
+
 def main():
     torch.manual_seed(42)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -96,29 +95,53 @@ def main():
         train=True, 
         download=True, 
         transform=transform)
+
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+
+    # Inizializza il modello
+    model = SimpleCNNQuantFP(num_classes=10).to(device)
     
+    # Allenamento per 1 epoca
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    
+    num_epochs = 5  # Cambia questo valore per il numero di epoche desiderate
+
+    for epoch in range(num_epochs):
+        model.train()
+        running_loss = 0.0
+
+        for images, labels in train_loader:
+            images, labels = images.to(device), labels.to(device)
+
+            outputs = model(images)
+            if hasattr(outputs, 'value'):
+                outputs = outputs.value
+
+            loss = criterion(outputs, labels)
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+            running_loss += loss.item()
+
+        avg_loss = running_loss / len(train_loader)
+        print(f"Epoca [{epoch+1}/{num_epochs}] - Loss media: {avg_loss:.4f}")
+        
     # Seleziona un'immagine specifica (primo aeroplano)
-    class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer', 
-                   'dog', 'frog', 'horse', 'ship', 'truck']
     class_idx = 0  # 0 = aeroplano
     target_indices = [i for i, (_, label) in enumerate(train_dataset) if label == class_idx]
     selected_idx = target_indices[0]
-    
     image, label = train_dataset[selected_idx]
+    dummy_input = image.unsqueeze(0).to(device)
 
-    
-    # Prepara l'input per il modello
-    dummy_input = image.unsqueeze(0).to(device)  # Aggiungi dimensione batch
-    
-    # Modello
-    model = SimpleCNNQuantFP(num_classes=10).to(device)
+    # Esporta in ONNX
     model.eval()
-    
-    # Export ONNX
     save_dir = "./Quantization/Nets"
     os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, "simple_cnn_fp8.onnx")
-    
+    save_path = os.path.join(save_dir, "definitive_floating_point_model.onnx")
+
     from brevitas.export import export_onnx_qcdq
     export_onnx_qcdq(
         model,
@@ -131,17 +154,15 @@ def main():
     
     print(f"Modello FP8 esportato in: {save_path}")
 
-    # Verifica e correzione del modello ONNX
+    # Aggiungi output intermedi nel modello ONNX
     model_onnx = onnx.load(save_path)
-    
-    # Identifica i nomi corretti dei nodi
     valid_outputs = []
     potential_outputs = [
-    "/conv1/Conv_output_0",
-    "/relu/act_quant/activation_impl/Relu_output_0",
-    "/relu/act_quant/export_handler/QuantizeLinear_output_0",
-    "output"
-]
+        "/conv1/Conv_output_0",
+        "/relu/act_quant/activation_impl/Relu_output_0",
+        "/relu/act_quant/export_handler/QuantizeLinear_output_0",
+        "output"
+    ]
     
     for name in potential_outputs:
         for node in model_onnx.graph.node:
@@ -149,7 +170,6 @@ def main():
                 valid_outputs.append(name)
                 break
     
-    # Aggiungi solo gli output validi
     for node_name in valid_outputs:
         intermediate_layer_info = helper.ValueInfoProto()
         intermediate_layer_info.name = node_name
@@ -166,14 +186,12 @@ def main():
     output_names = [output.name for output in ort_session.get_outputs()]
     all_outputs = ort_session.run(output_names, {input_name: dummy_input_np})
     
-    # Salva i risultati
+    # Dump su file
     dump_dir = "./Dump_files_FP8_FullPrecision"
     os.makedirs(dump_dir, exist_ok=True)
-    
-    # Salva l'input
+
     dump_tensor_to_txt(dummy_input_np, os.path.join(dump_dir, "input_full_precision.txt"), "Input Image")
-    
-    # Salva gli output
+
     for output, name in zip(all_outputs, output_names):
         if "conv1" in name:
             fname = "conv1_output_full_precision.txt"
