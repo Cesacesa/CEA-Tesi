@@ -1,7 +1,6 @@
 #include <iostream>
 #include "top_wrapper.h"
 #include "kernel.h"
-
 #include <fstream>
 #include <iostream>
 #include "input.h"
@@ -49,7 +48,7 @@ template< int ICH, int IW, int IH,
     int ICH_PAR_OUT,
     int FW_OUT, int FH_OUT, int OCH_OUT,
     int WINDOW_OUT>
-void out_conv2mem(memory_out_t* output_flat,
+void out_conv2mem(ap_int<64>* output_flat,
                   ap_int<45> memory[][CONV_2_OH][CONV_2_OW][CONV_2_OCH],
                   int NR_IMG,
                   int img)
@@ -65,25 +64,20 @@ void out_conv2mem(memory_out_t* output_flat,
                     for (int s_ich_par = 0; s_ich_par < ICH_PAR_OUT; s_ich_par++) {
                         for (int s_fh = 0; s_fh < FH_OUT; s_fh++) {
                             for (int s_fw = 0; s_fw < FW_OUT; s_fw++) {
-                            
                                 int s_mem_i = (s_fw + s_fh * FW_OUT) + s_ich_par * FW_OUT * FH_OUT;
                                 int s_mem_i_depth = s_window_h + s_window_w + s_ich / ICH_PAR_OUT;
-
-                                // Leggi da output_flat
                                 int val = output_flat[idx++];
                                 int in_h = s_ih + s_fh;
                                 int in_w = s_iw + s_fw;
                                 int in_c = s_ich + s_ich_par;
-
                                 if (in_h < IH && in_w < IW && in_c < ICH) {
                                     memory[img][in_h][in_w][in_c] = val;
                                 }
-                            }
+                            }                   
                         }
                         s_window_w += OCH / ICH_PAR_OUT;
-                       
                     }         
-            } 
+                } 
             if (s_iw >= OW - FW_OUT) {
                 if (special_row_window != 0) {
                     special_row_window--;
@@ -109,22 +103,52 @@ void out_conv2mem(memory_out_t* output_flat,
 }
 
 
-
 int main(){
-    constexpr int NR_IMG = 5; //define number of images
+    constexpr int NR_IMG = 5; // Number of images to process
+    // Variables for input and output to pass to the top_wrapper
+    hls::stream<mem_in_t> memory_in_stream("input_stream");
+    filter_stream_t filter_val_stream("filter1_stream");
+    filter_stream_t filter_val_2_stream("filter2_stream");
+    hls::stream<mem_out_t> memory_out_stream("output_stream");
 
-    memory_out_t memory_out_local[CONV_2_OUTPUT_SIZE * NR_IMG] = {0}; // Local memory for output
 
-    top_wrapper(input_ap_int, NR_IMG, kernel, kernel, memory_out_local); // Call the top wrapper function
-    
-    ap_int<45> output[NR_IMG][CONV_2_OH][CONV_2_OW][CONV_2_OCH] = {0}; // Output memory to store the golden results
+    memory_out_t memory_out_local[CONV_2_OUTPUT_SIZE * NR_IMG] = {0}; // Local memory to store the output from the hardware
+    ap_int<45> output[NR_IMG][CONV_2_OH][CONV_2_OW][CONV_2_OCH] = {0}; // Partitioned memory to store the output from the hardware and do comparison with the golden output
 
+    // Insert the input data into the memory_in_stream
     for (int img = 0; img < NR_IMG; img++) {
-        std::cout << "img: " << img << std::endl;
-        out_conv2mem<CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_1_FW, CONV_1_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_1_ICH_PAR, CONV_1_OUTPUT_SIZE, CONV_1_STRIDE, CONV_2_ICH_PAR, CONV_2_FW, CONV_2_FH, CONV_2_OCH, WINDOW_OUT_2>(memory_out_local, output, NR_IMG, img);
+        for (int i = 0; i < CONV_0_INPUT_SIZE_MAX; i++) {
+            memory_in_stream.write(input_ap_int[img * CONV_0_INPUT_SIZE_MAX + i]); 
+        }
+        // Insert the data in filter_val_stream fot the kernel 1
+        for (int i = 0; i < KERNEL_SIZE_0; i++) {
+            filter_val_stream.write( (ap_int<8>)kernel[i] );
+        }
+
+        // Insert the data in filter_val_2_stream for the kernel 2
+        for (int i = 0; i < KERNEL_SIZE_1; i++) {
+            filter_val_2_stream.write( (ap_int<8>)kernel[i] );
+        } 
+            top_wrapper(memory_in_stream, filter_val_stream, filter_val_2_stream, memory_out_stream); //call the top_wrapper function to process the input data and generate the output
+
     }
+
+    int out_idx = 0;
+    for (int img = 0; img < NR_IMG; img++) {
+        while (true) { //until flag TLAST is set
+            mem_out_t pkt = memory_out_stream.read(); // read packet from output stream
+            memory_out_local[out_idx++] = pkt.data; // store the data in the local memory
+            if (pkt.last) break; // if TLAST is set, break the loop
+        }
+    }
+    // Convert the output from the local memory to the output array for the comparison with the golden output
+    for (int img = 0; img < NR_IMG; img++) {
+        out_conv2mem<CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_1_FW, CONV_1_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_1_ICH_PAR, CONV_1_OUTPUT_SIZE, CONV_1_STRIDE, CONV_2_ICH_PAR, CONV_2_FW, CONV_2_FH, CONV_2_OCH, WINDOW_OUT_2>(&memory_out_local[img * CONV_2_OUTPUT_SIZE], output, NR_IMG, img);
+    }
+
     std::cout << "memory hw: " << std::endl;
-    for (int img = 0; img < NR_IMG; img++) {    
+    for (int img = 0; img < NR_IMG; img++) {   
+        std::cout << "Image " << img << ":" << std::endl; 
         for (int k = 0; k < CONV_1_OCH; k++) {
             for (int i = 0; i < CONV_1_OH; i++) {
                 for (int j = 0; j < CONV_1_OW; j++) {
@@ -137,24 +161,31 @@ int main(){
         std::cout << std::endl;
     }
 
-    int output_conv[CONV_0_OH * CONV_0_OW * CONV_0_OCH] = {0};
-    convoluzione_gold< CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, CONV_0_STRIDE>(input, output_conv);
+    // Variable to store the output from the golden function
+    int output_conv[NR_IMG][CONV_0_OH * CONV_0_OW * CONV_0_OCH] = {0};
+    int output_conv_2[NR_IMG][CONV_1_OH * CONV_1_OW * CONV_1_OCH] = {0};
+
+    // Call the golden function to compute the output
+    for (int img = 0; img < NR_IMG; img++) {
+        convoluzione_gold< CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, CONV_0_STRIDE>(&input[img * CONV_0_INPUT_SIZE], output_conv[img]);
+        
+        convoluzione_gold<CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_1_FW, CONV_1_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_1_ICH_PAR, CONV_1_STRIDE>(output_conv[img], output_conv_2[img]);
+    }
     
-    int output_conv_2[CONV_1_OH * CONV_1_OW * CONV_1_OCH] = {0};
-    convoluzione_gold<CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_1_FW, CONV_1_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_1_ICH_PAR, CONV_1_STRIDE>(output_conv, output_conv_2);
     
     int golden_out[NR_IMG][CONV_1_OH][CONV_1_OW][CONV_1_OCH] = {0};
     for (int img = 0; img < NR_IMG; img++) {
         for (int i = 0; i < CONV_1_OH; i++) {
             for (int j = 0; j < CONV_1_OW; j++) {
                 for (int k = 0; k < CONV_1_OCH; k++) {
-                    golden_out[img][i][j][k] = output_conv_2[i * CONV_1_OW * CONV_1_OCH + j * CONV_1_OCH + k];
+                    golden_out[img][i][j][k] = output_conv_2[img][i * CONV_1_OW * CONV_1_OCH + j * CONV_1_OCH + k];
                 }
             }
         }
     }
     std::cout << "golden_out_tb: " << std::endl;
     for (int img = 0; img < NR_IMG; img++) {
+        std::cout << "Image " << img << ":" << std::endl;
         for (int k = 0; k < CONV_1_OCH; k++) {
             for (int i = 0; i < CONV_1_OH; i++) {
                 for (int j = 0; j < CONV_1_OW; j++) {
@@ -178,6 +209,7 @@ int main(){
             }
         }
     }
+    std::cout << "Testbench passed ✅" << std::endl;
     return 0;
 }
 
