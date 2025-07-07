@@ -23,13 +23,16 @@ set_part {xck26-sfvc784-2LV-c}
 create_clock -period 5
 
 # Run simulation (csim)
-csim_design
+#csim_design
 
 # Run synthesis (csynth)
 csynth_design
 
 cosim_design 
 #-trace_level all
+
+#export_design -flow syn
+#-rtl verilog
 
 # Exit the script
 exit

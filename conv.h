@@ -17,7 +17,7 @@ template<int ICH, int IW, int IH,
     int ICH_PAR_OUT,
     int FW_OUT, int FH_OUT, int OCH_OUT,
     int WINDOW_OUT>
-void conv(memory_in_conv_t<FW, FH, ICH_PAR, ICH, WINDOW_IN>& memory_in,
+void conv(hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &conv_data_stream,
     filter_stream_t& filter_stream, //default ap_int<8>
     memory_out_conv_t<FW_OUT, FH_OUT, ICH_PAR_OUT, OCH_OUT, WINDOW_OUT>& out_mem)
 {     
@@ -32,11 +32,15 @@ void conv(memory_in_conv_t<FW, FH, ICH_PAR, ICH, WINDOW_IN>& memory_in,
     special_row_window = FW_OUT - ((OW / FW_OUT +1) * FW_OUT - OW);
     special_col_window = FH_OUT - ((OH / FH_OUT +1) * FH_OUT - OH);    
     int OUTPUT_SIZE = OCH * (FW_OUT * WINDOW_OUT) * (FH_OUT * WINDOW_OUT);
-    
+
+    constexpr int MEM_WIDTH = FW * FH * ICH_PAR;
+    ap_int<64> local_mem[MEM_WIDTH] = {0}; // local memory for debug purposes
+    #pragma HLS ARRAY_PARTITION variable=local_mem complete dim=0
+
     ap_int<8> filter_mem[FW * FH * ICH_PAR][ICH / ICH_PAR] = {0};
     #pragma HLS ARRAY_PARTITION variable=filter_mem complete dim=0
 
-    L6: for (int s_och = 0; s_och < OCH; s_och++){
+    L6: for (int s_och = 0; s_och < OCH; s_och += ICH_PAR_OUT) {
         for (int s_och_par = 0; s_och_par < ICH_PAR_OUT; s_och_par++){
             //read the filter_stream and put it in the filter_mem
             for (int s_fh = 0; s_fh < FH; s_fh++){
@@ -53,26 +57,30 @@ void conv(memory_in_conv_t<FW, FH, ICH_PAR, ICH, WINDOW_IN>& memory_in,
             }
             L5: for(int s_oh = 0; s_oh < OH; s_oh++){
                 L4: for(int s_ow = 0; s_ow < OW; s_ow++){
-                    ap_int<45> sum = 0;
+                    ap_int<64> sum = 0;
                     L3: for(int s_ich = 0; s_ich < ICH; s_ich += ICH_PAR){
                         #pragma HLS pipeline II=1
+                        // read the conv_data_stream and put it in a local_mem
+                        conv_packet_t<FW, FH, ICH_PAR> conv_packet = conv_data_stream.read();
+                        // Estrai valori dal pacchetto nei rispettivi elementi locali
+                        for (int idx = 0; idx < MEM_WIDTH; idx++) {
+                            local_mem[idx] = conv_packet((idx + 1) * 64 - 1, idx * 64);
+                        }
                         L3_bis: for (int s_ich_par = 0; s_ich_par < ICH_PAR; s_ich_par++){
                             L2: for (int s_fh = 0; s_fh < FH; s_fh++){
                                 L1: for (int s_fw = 0; s_fw < FW; s_fw++){
-                                    s_mem_i_depth = ((s_ow * STRIDE + s_fw) / FW ) * (ICH/ICH_PAR) + ((s_oh + s_fh) / FH) * ICH/ICH_PAR * WINDOW_IN + s_ich / ICH_PAR; //CON STRIDE E ICH_PAR
-                                    s_mem_i = (((s_ow * STRIDE + s_fh * FW + s_fw) % FW) + ((s_oh * FH + s_fh * FW)) % (FH * FW)) + s_ich_par * FW * FH; //CON STRIDE
                                     s_fil_i = s_fw + s_fh*FW + s_ich_par * FW * FH;
                                     s_fil_i_depth = s_ich / ICH_PAR; // + s_och * ICH / ICH_PAR;
-                                    
-                                    sum += memory_in[s_mem_i][s_mem_i_depth] * filter_mem[s_fil_i][s_fil_i_depth];
-
-                                    s_mem_o = (s_ow) % FW_OUT + (s_oh * FH_OUT) % (FH_OUT * FW_OUT) + s_och_par * FH_OUT * FW_OUT;
+                                    sum += local_mem[s_fil_i] * filter_mem[s_fil_i][s_fil_i_depth];
+                                    //print debug
+                                    #ifndef __SYNTHESIS__
+                                    std::cout << "sum: " << sum 
+                                              << ", local_mem[s_fil_i] " << local_mem[s_fil_i] 
+                                              << ", filter_mem[s_fil_i][s_fil_i_depth]: " << filter_mem[s_fil_i][s_fil_i_depth]
+                                              << std::endl;
+                                    #endif
+                                    s_mem_o = (s_ow) % FW_OUT + (s_oh * FH_OUT) % (FH_OUT * FW_OUT) + s_och_par * FH_OUT * FW_OUT; 
                                     s_mem_o_depth = (s_ow / FW_OUT) * (OCH / ICH_PAR_OUT) + (s_oh / FH_OUT) * (OCH / ICH_PAR_OUT) * (WINDOW_OUT) + s_och / ICH_PAR_OUT;
-                                    
-                                    // implementing relu
-                                    if (sum < 0) {
-                                        sum = 0;
-                                    }
                                     out_mem[s_mem_o][s_mem_o_depth] = sum;
                                     if (s_ow >= OW - FW_OUT){
                                         if (special_row_window != 0){

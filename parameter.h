@@ -3,6 +3,7 @@
 
 #include <ap_int.h> 
 #include <hls_stream.h>
+#include "ap_axi_sdata.h"
 
 #define CONV_0_STRIDE 1 
 #define CONV_0_ICH_PAR 1
@@ -26,6 +27,7 @@
 #define CONV_0_OW ((CONV_0_IW - CONV_0_FW) / CONV_0_STRIDE + 1) // output width
 #define CONV_0_OH ((CONV_0_IH - CONV_0_FH) / CONV_0_STRIDE + 1) // output height
 constexpr int CONV_0_INPUT_SIZE_MAX =  CONV_0_FH * WINDOW_IN * CONV_0_FW *WINDOW_IN * CONV_0_ICH; // input size
+constexpr int KERNEL_SIZE_0 = CONV_0_FW * CONV_0_FH * CONV_0_ICH * CONV_0_OCH;
 //---------------------------CONV_1--------------------------------
 
 #define CONV_1_STRIDE 1
@@ -45,6 +47,7 @@ constexpr int CONV_0_INPUT_SIZE_MAX =  CONV_0_FH * WINDOW_IN * CONV_0_FW *WINDOW
 #endif
 
 #define CONV_0_OUTPUT_SIZE (CONV_0_FH * WINDOW_OUT * CONV_0_FW * WINDOW_OUT * CONV_0_OCH) // output size
+constexpr int KERNEL_SIZE_1 = CONV_1_FW * CONV_1_FH * CONV_0_OCH * CONV_1_OCH; // kernel size
 
 //---------------------------CONV_2--------------------------------
 #define CONV_2_STRIDE 1
@@ -63,7 +66,9 @@ constexpr int CONV_0_INPUT_SIZE_MAX =  CONV_0_FH * WINDOW_IN * CONV_0_FW *WINDOW
 #endif
 
 #define CONV_1_OUTPUT_SIZE (CONV_1_FH * WINDOW_OUT * CONV_1_FW * WINDOW_OUT * CONV_1_OCH) // output size
+// constexpr int CONV_2_OUTPUT_SIZE = CONV_1_FH * WINDOW_OUT_2 * CONV_1_FW * WINDOW_OUT_2 * CONV_1_OCH; // output size
 constexpr int CONV_2_OUTPUT_SIZE = CONV_2_OH * CONV_2_OW * CONV_2_OCH; // output size
+
 
 //-----------------------------FILTER STREAM--------------------------------------
 using filter_stream_t = hls::stream<ap_int<8>>;
@@ -72,8 +77,8 @@ using filter_stream_t = hls::stream<ap_int<8>>;
 
 // typedef ap_int<45> memory_in_t[CONV_0_FW * CONV_0_FH * CONV_0_ICH_PAR][(CONV_0_ICH * (WINDOW_IN * CONV_0_FW) * (WINDOW_IN * CONV_0_FH)) / (CONV_0_FW * CONV_0_FH * CONV_0_ICH_PAR)];
 // typedef ap_int<45> memory_out_t[CONV_1_OH][CONV_1_OW][CONV_1_OCH];
-typedef ap_int<45> memory_in_t;
-typedef ap_int<45> memory_out_t;
+typedef ap_int<64> memory_in_t;
+typedef ap_int<64> memory_out_t;
 
 //--------------------------MEMORY IN AND OUT OF CONVOLUTION LAYER------------------------------
 template<int FW, int FH, int ICH_PAR, int ICH, int WINDOW_IN>
@@ -83,6 +88,15 @@ template<int FW_OUT, int FH_OUT, int ICH_PAR_OUT, int OCH, int WINDOW_OUT>
 using memory_out_conv_t = ap_int<45>[FW_OUT * FH_OUT * ICH_PAR_OUT][(OCH * FW_OUT * FH_OUT * WINDOW_OUT * WINDOW_OUT) / (FW_OUT * FH_OUT * ICH_PAR_OUT)];
 
 //--------------------------NUMBER OF IMAGES--------------------------------
-//constexpr int NR_IMG = 5;
+// constexpr int NR_IMG = 5;
+
+//--------------------------VARIABLE FOR INPUT STREAM--------------------------------
+using mem_in_t  = ap_int<64>;
+// ‑‑ Output data (64‑bit axis + TLAST)
+using mem_out_t = ap_axiu<64,0,0,0>;
+
+
+template<int FW, int FH, int ICH_PAR>
+using conv_packet_t = ap_int<FW * FH * ICH_PAR * 64>;
 
 #endif // PARAMETER_H

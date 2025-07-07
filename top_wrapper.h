@@ -3,7 +3,10 @@
 
 #include "conv.h"
 
-// void top_wrapper(memory_in_t input[NR_IMG], const int* filter_val, const int* filter_val_2, memory_out_t memory[NR_IMG]);
-void top_wrapper(memory_in_t* input, const int NR_IMG, const int* filter_val, const int* filter_val_2, memory_out_t* memory);
+void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
+                 filter_stream_t        &filter_val_stream,
+                 filter_stream_t        &filter_val_2_stream,
+                 hls::stream<mem_out_t> &memory_out_stream);
+
 
 #endif // TOP_WRAPPER_H
