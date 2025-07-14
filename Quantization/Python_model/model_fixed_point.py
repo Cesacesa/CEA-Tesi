@@ -83,7 +83,7 @@ class SimpleCNNQuant(nn.Module):
 
 def main():
     transform = transforms.Compose([transforms.ToTensor()])
-    train_dataset = torchvision.datasets.CIFAR10(root='/home/jajo/quantization/data', train=True, download=True, transform=transform)
+    train_dataset = torchvision.datasets.CIFAR10(root='/home/jajo/quantization/CEA-Tesi/Quantization/data', train=True, download=True, transform=transform)
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -110,11 +110,14 @@ def main():
 
     model_onnx = onnx.load(save_path)
 
+    # Aggiungi tutti i nodi di output che ci interessano
     for node_name in [
-    "/conv1/Conv_output_0",
-    "/relu/act_quant/activation_impl/Relu_output_0",
-    "/relu/act_quant/export_handler/QuantizeLinear_output_0"
-]:
+        "/quant_inp/act_quant/export_handler/DequantizeLinear_output_0",  # input_pre_conv
+        "/conv1/weight_quant/export_handler/DequantizeLinear_output_0",   # weights_pre_conv
+        "/conv1/Conv_output_0",
+        "/relu/act_quant/activation_impl/Relu_output_0",
+        "/relu/act_quant/export_handler/QuantizeLinear_output_0"
+    ]:
         intermediate_layer_info = helper.ValueInfoProto()
         intermediate_layer_info.name = node_name
         model_onnx.graph.output.append(intermediate_layer_info)
@@ -128,11 +131,15 @@ def main():
 
     dummy_input_np = dummy_input.cpu().numpy()
 
-    # Inferenza
-    pred_onnx = ort_session.run([output_name], {input_name: dummy_input_np})
-    conv1_output = ort_session.run(["/conv1/Conv_output_0"], {input_name: dummy_input_np})
-    relu_output = ort_session.run(["/relu/act_quant/activation_impl/Relu_output_0"], {input_name: dummy_input_np})
-    quantize_output = ort_session.run(["/relu/act_quant/export_handler/QuantizeLinear_output_0"], {input_name: dummy_input_np})
+    # Inferenza per tutti gli output
+    outputs = ort_session.run(
+        None,  # Tutti gli output
+        {input_name: dummy_input_np}
+    )
+    
+    # Mappatura dei nomi degli output ai loro valori
+    output_names = [output.name for output in ort_session.get_outputs()]
+    output_dict = dict(zip(output_names, outputs))
 
     # Dump directory
     os.makedirs("./Dump_files", exist_ok=True)
@@ -141,16 +148,42 @@ def main():
     dump_tensor_to_txt(dummy_input_np, "./Dump_files/input_image_fixed_point.txt", "Input image tensor")
 
     # Dump final prediction
-    dump_tensor_to_txt(pred_onnx[0], "./Dump_files/output_prediction_fixed_point.txt", "Output from ONNX model")
+    dump_tensor_to_txt(output_dict["output"], "./Dump_files/output_prediction_fixed_point.txt", "Output from ONNX model")
+
+    # Dump input_pre_conv (DequantizeLinear output after quant_inp)
+    dump_tensor_to_txt(
+        output_dict["/quant_inp/act_quant/export_handler/DequantizeLinear_output_0"],
+        "./Dump_files/input_pre_conv.txt",
+        "Dequantized input to conv1"
+    )
+
+    # Dump weights_pre_conv (DequantizeLinear output of conv1 weights)
+    dump_tensor_to_txt(
+        output_dict["/conv1/weight_quant/export_handler/DequantizeLinear_output_0"],
+        "./Dump_files/weights_pre_conv.txt",
+        "Dequantized weights of conv1"
+    )
 
     # Dump conv1 output
-    dump_tensor_to_txt(conv1_output[0], "./Dump_files/conv1_output_fixed_point.txt", "Output of conv1")
+    dump_tensor_to_txt(
+        output_dict["/conv1/Conv_output_0"],
+        "./Dump_files/conv1_output_fixed_point.txt",
+        "Output of conv1"
+    )
 
     # Dump QuantizeLinear output
-    dump_tensor_to_txt(quantize_output[0], "./Dump_files/quantize_linear_output_fixed_point.txt", "Output of QuantizeLinear after ReLU")
+    dump_tensor_to_txt(
+        output_dict["/relu/act_quant/export_handler/QuantizeLinear_output_0"],
+        "./Dump_files/quantize_linear_output_fixed_point.txt",
+        "Output of QuantizeLinear after ReLU"
+    )
 
     # Dump ReLU output
-    dump_tensor_to_txt(relu_output[0], "./Dump_files/relu_output_fixed_point.txt", "Output of ReLU quantized")
+    dump_tensor_to_txt(
+        output_dict["/relu/act_quant/activation_impl/Relu_output_0"],
+        "./Dump_files/relu_output_fixed_point.txt",
+        "Output of ReLU quantized"
+    )
 
     print("Tutti i file sono stati salvati in ./Dump_files")
 
