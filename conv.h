@@ -34,7 +34,7 @@ void conv(hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &conv_data_stream,
     int OUTPUT_SIZE = OCH * (FW_OUT * WINDOW_OUT) * (FH_OUT * WINDOW_OUT);
 
     constexpr int MEM_WIDTH = FW * FH * ICH_PAR;
-    ap_int<64> local_mem[MEM_WIDTH] = {0}; // local memory for debug purposes
+    memory_out_t local_mem[MEM_WIDTH] = {0}; // local memory for debug purposes
     #pragma HLS ARRAY_PARTITION variable=local_mem complete dim=0
 
     ap_int<8> filter_mem[FW * FH * ICH_PAR][ICH / ICH_PAR] = {0};
@@ -55,16 +55,27 @@ void conv(hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &conv_data_stream,
                     }
                 }
             }
+            // //print filter_mem for debug
+            // #ifndef __SYNTHESIS__
+            // std::cout << "Filter Memory: " << std::endl;
+            // for (int i = 0; i < FW * FH * ICH_PAR; i++) {
+            //     for (int j = 0; j < ICH / ICH_PAR; j++) {
+            //         std::cout << filter_mem[i][j] << " ";
+            //     }
+            //     std::cout << std::endl;
+            // }
+            // std::cout << std::endl;
+            // #endif
             L5: for(int s_oh = 0; s_oh < OH; s_oh++){
                 L4: for(int s_ow = 0; s_ow < OW; s_ow++){
-                    ap_int<64> sum = 0;
+                    memory_out_t sum = 0;
                     L3: for(int s_ich = 0; s_ich < ICH; s_ich += ICH_PAR){
                         #pragma HLS pipeline II=1
                         // read the conv_data_stream and put it in a local_mem
                         conv_packet_t<FW, FH, ICH_PAR> conv_packet = conv_data_stream.read();
                         // Estrai valori dal pacchetto nei rispettivi elementi locali
                         for (int idx = 0; idx < MEM_WIDTH; idx++) {
-                            local_mem[idx] = conv_packet((idx + 1) * 64 - 1, idx * 64);
+                            local_mem[idx] = conv_packet((idx + 1) * 8 - 1, idx * 8);
                         }
                         L3_bis: for (int s_ich_par = 0; s_ich_par < ICH_PAR; s_ich_par++){
                             L2: for (int s_fh = 0; s_fh < FH; s_fh++){
@@ -73,15 +84,18 @@ void conv(hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &conv_data_stream,
                                     s_fil_i_depth = s_ich / ICH_PAR; // + s_och * ICH / ICH_PAR;
                                     sum += local_mem[s_fil_i] * filter_mem[s_fil_i][s_fil_i_depth];
                                     //print debug
-                                    #ifndef __SYNTHESIS__
-                                    std::cout << "sum: " << sum 
-                                              << ", local_mem[s_fil_i] " << local_mem[s_fil_i] 
-                                              << ", filter_mem[s_fil_i][s_fil_i_depth]: " << filter_mem[s_fil_i][s_fil_i_depth]
-                                              << std::endl;
-                                    #endif
+                                    // #ifndef __SYNTHESIS__
+                                    // std::cout << "sum: " << sum 
+                                    //           << ", local_mem[s_fil_i] " << local_mem[s_fil_i] 
+                                    //           << ", filter_mem[s_fil_i][s_fil_i_depth]: " << filter_mem[s_fil_i][s_fil_i_depth]
+                                    //           << std::endl;
+                                    // #endif
                                     s_mem_o = (s_ow) % FW_OUT + (s_oh * FH_OUT) % (FH_OUT * FW_OUT) + s_och_par * FH_OUT * FW_OUT; 
                                     s_mem_o_depth = (s_ow / FW_OUT) * (OCH / ICH_PAR_OUT) + (s_oh / FH_OUT) * (OCH / ICH_PAR_OUT) * (WINDOW_OUT) + s_och / ICH_PAR_OUT;
-                                    out_mem[s_mem_o][s_mem_o_depth] = sum;
+                                    // if (sum < 0) {
+                                    //     sum = 0;
+                                    // }
+                                    // out_mem[s_mem_o][s_mem_o_depth] = sum;
                                     if (s_ow >= OW - FW_OUT){
                                         if (special_row_window != 0){
                                             special_row_window--;
@@ -102,6 +116,7 @@ void conv(hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &conv_data_stream,
                             }
                         }
                     }
+                    out_mem[s_mem_o][s_mem_o_depth] = sum;
                 }
             }
         }
