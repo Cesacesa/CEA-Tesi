@@ -1,4 +1,5 @@
 #include "top_wrapper.h"
+#include "operation_on_matrix.h"
 
 template< int ICH, int IW, int IH,
     int FW_IN, int FH_IN,
@@ -98,7 +99,7 @@ void mem_conv2stream(
     int packet_element_idx = 0; // index to write in the packet
     int MEM_IN_T_BIT_WIDTH = 8; // bit width of each packet element
     conv_packet_t<FW_IN, FH_IN, ICH_PAR_IN> current_packet;
-
+    // #pragma HLS STREAM variable=current_packet depth=1
     
     for (int s_och = 0; s_och < OCH; s_och += ICH_PAR_OUT) {
         for (int s_och_par = 0; s_och_par < ICH_PAR_OUT; s_och_par++){
@@ -149,19 +150,19 @@ template< int ICH, int IW, int IH,
           int ICH_PAR_IN, int STRIDE,
           int ICH_PAR_OUT, int FW_OUT, int FH_OUT, int OCH_OUT,
           int WINDOW_OUT>
-void out_conv2mem(memory_out_conv_t<FW_OUT, FH_OUT, ICH_PAR_OUT, OCH_OUT, WINDOW_OUT>& memory,
+void out_conv2mem(memory_out_quant<FW_OUT, FH_OUT, ICH_PAR_OUT, OCH_OUT, WINDOW_OUT>& memory,
                   hls::stream<mem_out_t>& memory_out_stream)
 {
     constexpr int MEM_WIDTH = FW_OUT * FH_OUT * ICH_PAR_OUT;
     constexpr int MEM_DEPTH = (OCH * WINDOW_OUT * FW_OUT * WINDOW_OUT * FH_OUT) / MEM_WIDTH;
 
     for (int j = 0; j < MEM_DEPTH; ++j) {
+        #pragma HLS PIPELINE II=1
         for (int i = 0; i < MEM_WIDTH; ++i) {
-            #pragma HLS PIPELINE II=1
             mem_out_t pkt;
-            if (memory[i][j] < 0) {
-                memory[i][j] = 0; // ReLU activation
-            }
+            // if (memory[i][j] < 0) {
+            //     memory[i][j] = 0; // ReLU activation
+            // }
             pkt.data = memory[i][j];
             pkt.keep = -1;              // tutti i byte validi
             pkt.last = (j == MEM_DEPTH - 1) && (i == MEM_WIDTH - 1); //set flag TLAST
@@ -183,7 +184,7 @@ void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
     #pragma HLS INTERFACE ap_ctrl_none port=return
 
     filter_stream_t filter2conv; //stream of single value of filter
-    #pragma HLS STREAM variable=filter2conv depth=100
+    #pragma HLS STREAM variable=filter2conv depth=500
     // filter_stream_t filter2conv2; //stream of single value of filter2
     // #pragma HLS STREAM variable=filter2conv2 depth=100
 
@@ -192,10 +193,13 @@ void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
     // kernel2conv<CONV_1_FW, CONV_1_FH, CONV_0_OCH, CONV_1_OCH>(filter_val_2_stream, filter2conv2); // stream passed to second conv
 
     memory_in_conv_t<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR, CONV_0_ICH, WINDOW_IN> memory_in_local; // partiotioned memory for input
-    #pragma HLS ARRAY_PARTITION variable=memory_in_local complete dim=0
+    //#pragma HLS ARRAY_PARTITION variable=memory_in_local complete dim=0
+    #pragma HLS ARRAY_PARTITION variable=memory_in_local cyclic factor=9 dim=0
+
 
     memory_out_conv_t<CONV_1_FW, CONV_1_FH, CONV_1_ICH_PAR, CONV_1_OCH, WINDOW_OUT> out_mem; // partiotioned memory for output of first conv
-    #pragma HLS ARRAY_PARTITION variable=out_mem complete dim=0
+    //#pragma HLS ARRAY_PARTITION variable=out_mem complete dim=0
+    #pragma HLS BIND_STORAGE variable=out_mem type=ram_t2p impl=bram
 
     // memory_out_conv_t<CONV_2_FW, CONV_2_FH, CONV_2_ICH_PAR, CONV_2_OCH, WINDOW_OUT_2> out_mem2; // partiotioned memory for output of second conv
     // #pragma HLS ARRAY_PARTITION variable=out_mem2 complete dim=0
@@ -239,7 +243,10 @@ void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
     
     // out_conv2mem<CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_1_FW, CONV_1_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_1_ICH_PAR, CONV_1_STRIDE, CONV_2_ICH_PAR, CONV_2_FW, CONV_2_FH, CONV_2_OCH, WINDOW_OUT_2>(out_mem, memory_out_stream); // read partitioned memory and write to output stream
 
-    out_conv2mem<CONV_0_ICH, CONV_0_OW, CONV_0_OH, CONV_0_FW, CONV_0_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_0_ICH_PAR, CONV_0_STRIDE, CONV_1_ICH_PAR, CONV_1_FW, CONV_1_FH, CONV_1_OCH, WINDOW_OUT>(out_mem, memory_out_stream); // read partitioned memory and write to output stream
+    memory_out_quant <CONV_1_FW, CONV_1_FH, CONV_1_ICH_PAR, CONV_1_OCH, WINDOW_OUT> out_mem_quant; // partitioned memory for quantized output
+    matrix_wrapper(out_mem, out_mem_quant);
+
+    out_conv2mem<CONV_0_ICH, CONV_0_OW, CONV_0_OH, CONV_0_FW, CONV_0_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_0_ICH_PAR, CONV_0_STRIDE, CONV_1_ICH_PAR, CONV_1_FW, CONV_1_FH, CONV_1_OCH, WINDOW_OUT>(out_mem_quant, memory_out_stream); // read partitioned memory and write to output stream
 }
 
 

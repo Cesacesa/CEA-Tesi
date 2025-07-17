@@ -5,6 +5,7 @@
 #include <hls_stream.h>
 #include "ap_axi_sdata.h"
 
+
 #define CONV_0_STRIDE 1 
 #define CONV_0_ICH_PAR 1
 
@@ -85,7 +86,7 @@ template<int FW, int FH, int ICH_PAR, int ICH, int WINDOW_IN>
 using memory_in_conv_t = ap_uint<8>[FW * FH * ICH_PAR][(ICH * FW * FH * WINDOW_IN * WINDOW_IN) / (FW * FH * ICH_PAR)];
 
 template<int FW_OUT, int FH_OUT, int ICH_PAR_OUT, int OCH, int WINDOW_OUT>
-using memory_out_conv_t = ap_int<32>[FW_OUT * FH_OUT * ICH_PAR_OUT][(OCH * FW_OUT * FH_OUT * WINDOW_OUT * WINDOW_OUT) / (FW_OUT * FH_OUT * ICH_PAR_OUT)];
+using memory_out_conv_t = ap_uint<32>[FW_OUT * FH_OUT * ICH_PAR_OUT][(OCH * FW_OUT * FH_OUT * WINDOW_OUT * WINDOW_OUT) / (FW_OUT * FH_OUT * ICH_PAR_OUT)];
 
 //--------------------------NUMBER OF IMAGES--------------------------------
 // constexpr int NR_IMG = 5;
@@ -98,5 +99,10 @@ using mem_out_t = ap_axiu<32,0,0,0>;
 
 template<int FW, int FH, int ICH_PAR>
 using conv_packet_t = ap_uint<FW * FH * ICH_PAR * 8>;
+
+
+//----------------------------  memory dor quant----------------------
+template<int FW_OUT, int FH_OUT, int ICH_PAR_OUT, int OCH, int WINDOW_OUT>
+using memory_out_quant = ap_uint<8>[FW_OUT * FH_OUT * ICH_PAR_OUT][(OCH * FW_OUT * FH_OUT * WINDOW_OUT * WINDOW_OUT) / (FW_OUT * FH_OUT * ICH_PAR_OUT)];
 
 #endif // PARAMETER_H

@@ -116,6 +116,9 @@ void conv(hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &conv_data_stream,
                             }
                         }
                     }
+                    if (sum < 0) {
+                        sum = 0;
+                    }
                     out_mem[s_mem_o][s_mem_o_depth] = sum;
                 }
             }

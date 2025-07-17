@@ -10,6 +10,8 @@
 #include "kernel_lenet.h"
 #include "output_lenet.h"
 
+#include "output_matrix_deq_and_quant.h"
+
 
 template< int ICH, int IW, int IH,
     int FW_IN, int FH_IN,
@@ -238,7 +240,7 @@ int main(){
         for (int i = 0; i < CONV_0_OH; i++) {
             for (int j = 0; j < CONV_0_OW; j++) {
                 for (int k = 0; k < CONV_0_OCH; k++) {
-                    golden_out[img][i][j][k] = relu_output[i * CONV_0_OW * CONV_0_OCH + j * CONV_0_OCH + k];
+                    golden_out[img][i][j][k] = quant_out[i * CONV_0_OW * CONV_0_OCH + j * CONV_0_OCH + k];
                 }
             }
         }
