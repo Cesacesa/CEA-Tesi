@@ -6,10 +6,11 @@
 #include "ap_axi_sdata.h"
 
 
-#define CONV_0_STRIDE 1 
+#define CONV_0_STRIDE 1
+#define CONV_0_PADDING 1
 #define CONV_0_ICH_PAR 1
 
-#define CONV_0_ICH 3// input channels
+#define CONV_0_ICH 3 // input channels
 #define CONV_0_IW 32 // input width
 #define CONV_0_IH 32 // input height
 #define CONV_0_INPUT_SIZE (CONV_0_ICH * CONV_0_IW * CONV_0_IH) // input size
@@ -24,9 +25,9 @@
     constexpr int WINDOW_IN = CONV_0_IW / CONV_0_FW;
 #endif
 
-#define CONV_0_OCH 8 // output channels
-#define CONV_0_OW ((CONV_0_IW - CONV_0_FW) / CONV_0_STRIDE + 1) // output width
-#define CONV_0_OH ((CONV_0_IH - CONV_0_FH) / CONV_0_STRIDE + 1) // output height
+#define CONV_0_OCH 16 // output channels
+#define CONV_0_OW ((CONV_0_IW + 2 * CONV_0_PADDING - CONV_0_FW) / CONV_0_STRIDE + 1) // output width
+#define CONV_0_OH ((CONV_0_IH + 2 * CONV_0_PADDING - CONV_0_FH) / CONV_0_STRIDE + 1) // output height
 constexpr int CONV_0_INPUT_SIZE_MAX =  CONV_0_FH * WINDOW_IN * CONV_0_FW *WINDOW_IN * CONV_0_ICH; // input size
 constexpr int KERNEL_SIZE_0 = CONV_0_FW * CONV_0_FH * CONV_0_ICH * CONV_0_OCH;
 //---------------------------CONV_1--------------------------------
@@ -37,7 +38,7 @@ constexpr int KERNEL_SIZE_0 = CONV_0_FW * CONV_0_FH * CONV_0_ICH * CONV_0_OCH;
 #define CONV_1_FW 1 // filter width 
 #define CONV_1_FH 1 // filter height
 
-#define CONV_1_OCH 8 // Numero di canali output
+#define CONV_1_OCH 16 // Numero di canali output
 #define CONV_1_OW ((CONV_0_OW - CONV_1_FW) / CONV_1_STRIDE + 1) // Larghezza output
 #define CONV_1_OH ((CONV_0_OH - CONV_1_FH) / CONV_1_STRIDE + 1) // Altezza output
 

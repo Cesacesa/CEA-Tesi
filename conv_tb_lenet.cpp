@@ -6,47 +6,54 @@
 #include <ap_int.h>
 #include "parameter.h"
 
-#include "input_lenet.h"
-#include "kernel_lenet.h"
-#include "output_lenet.h"
+// #include "input_lenet.h"
+// #include "kernel_lenet.h"
+// #include "output_lenet.h"
+
+#include "input_resnet8.h"
+#include "kernel_resnet8.h"
+#include "output_resnet8.h"
+
+// #include "input_resnet8_2.h"
+// #include "output_resnet8_2.h"
 
 #include "output_matrix_deq_and_quant.h"
 
 
-template< int ICH, int IW, int IH,
-    int FW_IN, int FH_IN,
-    int OCH, int OW, int OH, 
-    int ICH_PAR_IN,
-    int STRIDE>
-void convoluzione_gold(const memory_in_t input_values[], memory_out_t output_conv[OH * OW * OCH]){
-    int input_idx = 0;
-    int kernel_idx = 0;
-    int out_idx = 0;
-    for (int out_h = 0; out_h < OH; out_h++) {
-        for (int out_w = 0; out_w < OW; out_w++) {
-            for (int out_c = 0; out_c < OCH; out_c++) {
-            memory_out_t sum = 0;
-                for (int in_c = 0; in_c < ICH; in_c++) {
-                    for (int filter_h = 0; filter_h < FH_IN; filter_h++) {
-                        for (int filter_w = 0; filter_w < FW_IN; filter_w++) {
-                            int in_h = out_h + filter_h;
-                            int in_w = out_w * STRIDE + filter_w;
-                            input_idx = in_c + (in_w * ICH) + (in_h * IW * ICH);
-                            kernel_idx = ((out_c * FH_IN + filter_h) * FW_IN + filter_w) * ICH + in_c;
-                            sum += input_values[input_idx] * weights[kernel_idx];
-                        }
-                    }
-                }
-                // ReLU activation
-                if (sum < 0) {
-                    sum = 0;
-                }
-                output_conv[out_idx] = sum;
-                out_idx++;
-            }
-        }
-    }
-}
+// template< int ICH, int IW, int IH,
+//     int FW_IN, int FH_IN,
+//     int OCH, int OW, int OH, 
+//     int ICH_PAR_IN,
+//     int STRIDE>
+// void convoluzione_gold(const memory_in_t input_values[], memory_out_t output_conv[OH * OW * OCH]){
+//     int input_idx = 0;
+//     int kernel_idx = 0;
+//     int out_idx = 0;
+//     for (int out_h = 0; out_h < OH; out_h++) {
+//         for (int out_w = 0; out_w < OW; out_w++) {
+//             for (int out_c = 0; out_c < OCH; out_c++) {
+//             memory_out_t sum = 0;
+//                 for (int in_c = 0; in_c < ICH; in_c++) {
+//                     for (int filter_h = 0; filter_h < FH_IN; filter_h++) {
+//                         for (int filter_w = 0; filter_w < FW_IN; filter_w++) {
+//                             int in_h = out_h + filter_h;
+//                             int in_w = out_w * STRIDE + filter_w;
+//                             input_idx = in_c + (in_w * ICH) + (in_h * IW * ICH);
+//                             kernel_idx = ((out_c * FH_IN + filter_h) * FW_IN + filter_w) * ICH + in_c;
+//                             sum += input_values[input_idx] * weights[kernel_idx];
+//                         }
+//                     }
+//                 }
+//                 // ReLU activation
+//                 if (sum < 0) {
+//                     sum = 0;
+//                 }
+//                 output_conv[out_idx] = sum;
+//                 out_idx++;
+//             }
+//         }
+//     }
+// }
 
 // template< int ICH, int IW, int IH,
 //     int FW_IN, int FH_IN,
@@ -116,6 +123,9 @@ void simple_out_conv2mem(memory_out_t* output_flat,
     for (int i = 0; i < CONV_0_OH; i++) {
         for (int j = 0; j < CONV_0_OW; j++) {
             for (int k = 0; k < CONV_0_OCH; k++) {
+                if (output_flat[idx] > 127) {
+                    output_flat[idx] = 127; // Apply ReLU activation
+                }
                 output[0][i][j][k] = output_flat[idx++];
             }
         }
@@ -189,10 +199,10 @@ int main(){
         std::cout << std::endl;
     }
 
-    memory_out_t output_conv[NR_IMG][CONV_0_OH * CONV_0_OW * CONV_0_OCH] = {0};
-    for (int img = 0; img < NR_IMG; img++) {
-        convoluzione_gold< CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, CONV_0_STRIDE>(&input_values[img * CONV_0_INPUT_SIZE], output_conv[img]);
-    }
+    // memory_out_t output_conv[NR_IMG][CONV_0_OH * CONV_0_OW * CONV_0_OCH] = {0};
+    // for (int img = 0; img < NR_IMG; img++) {
+    //     convoluzione_gold< CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, CONV_0_STRIDE>(&input_values[img * CONV_0_INPUT_SIZE], output_conv[img]);
+    // }
 
     // int golden_out_tb[NR_IMG][CONV_0_OH][CONV_0_OW][CONV_0_OCH] = {0};
     // for (int img = 0; img < NR_IMG; img++) {
@@ -240,7 +250,7 @@ int main(){
         for (int i = 0; i < CONV_0_OH; i++) {
             for (int j = 0; j < CONV_0_OW; j++) {
                 for (int k = 0; k < CONV_0_OCH; k++) {
-                    golden_out[img][i][j][k] = quant_out[i * CONV_0_OW * CONV_0_OCH + j * CONV_0_OCH + k];
+                    golden_out[img][i][j][k] = output_values[i * CONV_0_OW * CONV_0_OCH + j * CONV_0_OCH + k]; //------------MODIFIED NAME HERE----------------------
                 }
             }
         }
