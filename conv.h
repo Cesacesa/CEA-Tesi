@@ -40,8 +40,15 @@ void conv(hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &conv_data_stream,
     ap_int<8> filter_mem[FW * FH * ICH_PAR][ICH / ICH_PAR] = {0};
     #pragma HLS ARRAY_PARTITION variable=filter_mem complete dim=0
 
-    ap_int<16> bias[OCH] = {-1424, 1350, -1579, -5, 378, 642, 509, 531, 654, 130, 800, -213, 1473, -51, 439, 648}; // bias for each output channel
+    ap_int<32> bias[OCH] = {2192, 1374, 0, -3846, 0, 740, 4047, 0, 1317, 0, 2971, 1201,
+    -632, 0, 848, 1748, 2341, -2250, -3432, 4135, 1925, 4154, 2341, 2940,
+    1095, 1546, 1423, 838, 3005, 148, 829, 2081, 1114, 3700, -1967, -221,
+    0, 1836, 0, 1090, 827, 2419, 2797, 1394, 1789, 6046, 1388, 2997,
+    0, 967, 1203, 4592, 1887, 2117, -1737, 2870, 844, 1656, -1970, 896,
+    4355, 5911, -1936, 1083}; // bias for each output channel
 
+    // ap_int<16> bias[OCH] = {-1424, 1350, -1579, -5, 378, 642, 509, 531, 654, 130, 800, -213, 1473, -51, 439, 648};
+    
     L6: for (int s_och = 0; s_och < OCH; s_och += ICH_PAR_OUT) {
         for (int s_och_par = 0; s_och_par < ICH_PAR_OUT; s_och_par++){
             //read the filter_stream and put it in the filter_mem
@@ -58,15 +65,15 @@ void conv(hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &conv_data_stream,
                 }
             }
             // print filter_mem for debug purposes
-            #ifndef __SYNTHESIS__
-            std::cout << "Filter memory for output channel " << s_och + s_och_par << ": " << std::endl;
-            for (int i = 0; i < FW * FH * ICH_PAR; i++) {
-                for (int j = 0; j < ICH / ICH_PAR; j++) {
-                    std::cout << (int)filter_mem[i][j] << " ";
-                }
-                std::cout << std::endl;
-            }
-            #endif
+            // #ifndef __SYNTHESIS__
+            // std::cout << "Filter memory for output channel " << s_och + s_och_par << ": " << std::endl;
+            // for (int i = 0; i < FW * FH * ICH_PAR; i++) {
+            //     for (int j = 0; j < ICH / ICH_PAR; j++) {
+            //         std::cout << (int)filter_mem[i][j] << " ";
+            //     }
+            //     std::cout << std::endl;
+            // }
+            // #endif
             L5: for(int s_oh = 0; s_oh < OH; s_oh++){
                 L4: for(int s_ow = 0; s_ow < OW; s_ow++){
                     memory_out_t sum = bias[s_och + s_och_par]; // inizializza la somma con il bias -------------------------------------------------
@@ -115,6 +122,9 @@ void conv(hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &conv_data_stream,
                             }
                         }
                     }
+                    #ifndef __SYNTHESIS__
+                    std::cout << "DEBUG: Writing to out_mem[" << s_mem_o << "][" << s_mem_o_depth << "] = " << (int)sum << std::endl;       
+                    #endif
                     if (sum < 0) {
                         sum = 0;
                     }

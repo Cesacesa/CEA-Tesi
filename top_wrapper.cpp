@@ -9,6 +9,9 @@ template< int ICH, int IW, int IH,
 void input2conv(hls::stream<mem_in_t>& memory_in_stream,
     memory_in_conv_t<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR, CONV_0_ICH, WINDOW_IN>& memory_in_local)
     {
+    #ifndef __SYNTHESIS__
+    std::cout << "Start input to conv" << std::endl;
+    #endif
     int s_window_h = 0; 
     int in_idx = 0;
     int s_mem_i = 0;
@@ -73,6 +76,9 @@ template<
     int OCH,
     typename T = ap_int<8>>
 void kernel2conv(filter_stream_t& filter_val_stream, hls::stream<T>& filter2conv) {
+    #ifndef __SYNTHESIS__
+    std::cout << "Start kernel to conv" << std::endl;
+    #endif
     const int total_kernel = FW * FH * ICH * OCH;
     for (int i = 0; i < total_kernel; i++) {
         #pragma HLS PIPELINE II=1
@@ -81,56 +87,6 @@ void kernel2conv(filter_stream_t& filter_val_stream, hls::stream<T>& filter2conv
     }
 }
 
-// template<
-//     int ICH, int IW, int IH,
-//     int FW_IN, int FH_IN,
-//     int OCH, int OW, int OH, 
-//     int ICH_PAR_IN,
-//     int WINDOW_IN,
-//     int STRIDE,
-//     int ICH_PAR_OUT>
-// void mem_conv2stream(
-//     memory_in_conv_t<FW_IN, FH_IN, ICH_PAR_IN, ICH, WINDOW_IN>& memory_in,
-//     hls::stream<conv_packet_t<FW_IN, FH_IN, ICH_PAR_IN>> &conv_data_stream)
-// {
-
-//     int s_mem_i = 0;
-//     int s_mem_i_depth = 0;
-//     int packet_element_idx = 0; // index to write in the packet
-//     constexpr int MEM_IN_T_BIT_WIDTH = 8; // bit width of each packet element
-//     conv_packet_t<FW_IN, FH_IN, ICH_PAR_IN> current_packet;
-    
-//     for (int s_och = 0; s_och < OCH; s_och += ICH_PAR_OUT) {
-//         for (int s_och_par = 0; s_och_par < ICH_PAR_OUT; s_och_par++){
-//             for(int s_oh = 0; s_oh < OH; s_oh++){
-//                 for(int s_ow = 0; s_ow < OW; s_ow++){
-//                     for(int s_ich = 0; s_ich < ICH; s_ich += ICH_PAR_IN){
-//                         for (int s_ich_par = 0; s_ich_par < ICH_PAR_IN; s_ich_par++){
-//                             conv_packet_t<FW_IN, FH_IN, ICH_PAR_IN> current_packet = 0; // azzera!
-//                             packet_element_idx = 0;
-//                             for (int s_fh = 0; s_fh < FH_IN; s_fh++){
-//                                 for (int s_fw = 0; s_fw < FW_IN; s_fw++){
-//                                     s_mem_i_depth = ((s_ow * STRIDE + s_fw) / FW_IN ) * (ICH/ICH_PAR_IN) + ((s_oh + s_fh) / FH_IN) * ICH/ICH_PAR_IN * WINDOW_IN + s_ich / ICH_PAR_IN; //CON STRIDE E ICH_PAR
-//                                     s_mem_i = (((s_ow * STRIDE + s_fh * FW_IN + s_fw) % FW_IN) + ((s_oh * FH_IN + s_fh * FW_IN)) % (FH_IN * FW_IN)) + s_ich_par * FW_IN * FH_IN; //CON STRIDE
-
-//                                     current_packet((packet_element_idx + 1) * MEM_IN_T_BIT_WIDTH - 1, packet_element_idx * MEM_IN_T_BIT_WIDTH) = memory_in[s_mem_i][s_mem_i_depth]; // read from memory and write to packet
-//                                     packet_element_idx++;
-//                                 }
-//                             }
-//                             // #ifndef __SYNTHESIS__
-//                             // for (int i = 0; i < FW_IN * FH_IN * ICH_PAR_IN; i++) {
-//                             //     memory_out_t slice = current_packet.range((i+1)*8 - 1, i*8);
-//                             //     std::cout << "Packet slice[" << i << "]: " << slice.to_int() << std::endl;
-//                             // }
-//                             // #endif
-//                             conv_data_stream.write(current_packet);
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
 
 // #ifndef __SYNTHESIS__
 // template<
@@ -146,81 +102,33 @@ void kernel2conv(filter_stream_t& filter_val_stream, hls::stream<T>& filter2conv
 //     constexpr int PH = IH + 2 * PADDING;
 //     constexpr int PW = IW + 2 * PADDING;
 
-//     // Stampa l'immagine padded come matrice
-//     printf("\n=== DEBUG: Immagine con padding=%d (%dx%d -> %dx%d) ===\n", PADDING, IH, IW, PH, PW);
-
-//     for (int ih_padded = 0; ih_padded < PH; ih_padded++) {
-//         for (int iw_padded = 0; iw_padded < PW; iw_padded++) {
-//             int ih_real = ih_padded - PADDING;
-//             int iw_real = iw_padded - PADDING;
-//             int val_dbg = 0;
-//             if (ih_real >= 0 && ih_real < IH && iw_real >= 0 && iw_real < IW) {
-//                 // Leggi un pixel reale (ad esempio canale 0 per debug)
-//                 int s_mem_depth = (iw_real / FW_IN) * (ICH/ICH_PAR_IN) + (ih_real / FH_IN) * (ICH/ICH_PAR_IN) * WINDOW_IN;
-//                 int s_mem_idx   = (iw_real % FW_IN) + (ih_real % FH_IN) * FW_IN;
-//                 val_dbg = (int)memory_in[s_mem_idx][s_mem_depth]; 
-//             } else {
-//                 val_dbg = 0; // padding
+//     printf("\n=== DEBUG: Immagine con padding=%d (%dx%d -> %dx%d), %d canali ===\n",
+//            PADDING, IH, IW, PH, PW, ICH);
+//     // Cicliamo su tutti i canali
+//     for (int c = 0; c < ICH; c++) {
+//         printf("\n--- Canale %d ---\n", c);
+//         for (int ih_padded = 0; ih_padded < PH; ih_padded++) {
+//             for (int iw_padded = 0; iw_padded < PW; iw_padded++) {
+//                 int ih_real = ih_padded - PADDING;
+//                 int iw_real = iw_padded - PADDING;
+//                 int val_dbg = 0;
+//                 if (ih_real >= 0 && ih_real < IH && iw_real >= 0 && iw_real < IW) {
+//                     // pixel valido -> leggi il valore del canale c
+//                     int s_mem_depth = (iw_real / FW_IN) * (ICH/ICH_PAR_IN) + (ih_real / FH_IN) * (ICH/ICH_PAR_IN) * WINDOW_IN + (c / ICH_PAR_IN);
+//                     int s_mem_idx   = (iw_real % FW_IN) + (ih_real % FH_IN) * FW_IN;
+//                     val_dbg = (int)memory_in[s_mem_idx][s_mem_depth * ICH_PAR_IN + (c % ICH_PAR_IN)];
+//                 } else {
+//                     // padding
+//                     val_dbg = 0;
+//                 }
+//                 printf("%3d ", val_dbg);
 //             }
-//             printf("%3d ", val_dbg);
+//             printf("\n");
 //         }
-//         printf("\n");
 //     }
 //     printf("=== END DEBUG ===\n");
 // }
 // #endif
-
-
-
-#ifndef __SYNTHESIS__
-template<
-    int ICH, int IW, int IH,
-    int FW_IN, int FH_IN,
-    int ICH_PAR_IN,
-    int WINDOW_IN,
-    int PADDING
->
-void debug_print_padded_image(
-    memory_in_conv_t<FW_IN, FH_IN, ICH_PAR_IN, ICH, WINDOW_IN>& memory_in)
-{
-    constexpr int PH = IH + 2 * PADDING;
-    constexpr int PW = IW + 2 * PADDING;
-
-    printf("\n=== DEBUG: Immagine con padding=%d (%dx%d -> %dx%d), %d canali ===\n",
-           PADDING, IH, IW, PH, PW, ICH);
-
-    // Cicliamo su tutti i canali
-    for (int c = 0; c < ICH; c++) {
-        printf("\n--- Canale %d ---\n", c);
-
-        for (int ih_padded = 0; ih_padded < PH; ih_padded++) {
-            for (int iw_padded = 0; iw_padded < PW; iw_padded++) {
-                int ih_real = ih_padded - PADDING;
-                int iw_real = iw_padded - PADDING;
-
-                int val_dbg = 0;
-
-                if (ih_real >= 0 && ih_real < IH && iw_real >= 0 && iw_real < IW) {
-                    // pixel valido -> leggi il valore del canale c
-                    int s_mem_depth = (iw_real / FW_IN) * (ICH/ICH_PAR_IN) 
-                                    + (ih_real / FH_IN) * (ICH/ICH_PAR_IN) * WINDOW_IN 
-                                    + (c / ICH_PAR_IN);
-                    int s_mem_idx   = (iw_real % FW_IN) + (ih_real % FH_IN) * FW_IN;
-                    val_dbg = (int)memory_in[s_mem_idx][s_mem_depth * ICH_PAR_IN + (c % ICH_PAR_IN)];
-                } else {
-                    // padding
-                    val_dbg = 0;
-                }
-
-                printf("%3d ", val_dbg);
-            }
-            printf("\n");
-        }
-    }
-
-    printf("=== END DEBUG ===\n");
-}
-#endif
 
 template<
     int ICH, int IW, int IH,
@@ -236,10 +144,10 @@ void mem_conv2stream(
     hls::stream<conv_packet_t<FW_IN, FH_IN, ICH_PAR_IN>> &conv_data_stream)
 {
 
-    #ifndef __SYNTHESIS__
-    // QUI faccio una stampa dell’immagine padded per vedere se è corretta
-    debug_print_padded_image<ICH, IW, IH, FW_IN, FH_IN, ICH_PAR_IN, WINDOW_IN, PADDING>(memory_in);
-    #endif
+    // #ifndef __SYNTHESIS__
+    // // QUI faccio una stampa dell’immagine padded per vedere se è corretta
+    // debug_print_padded_image<ICH, IW, IH, FW_IN, FH_IN, ICH_PAR_IN, WINDOW_IN, PADDING>(memory_in);
+    // #endif
 
     int s_mem_i = 0;
     int s_mem_i_depth = 0;
@@ -279,14 +187,14 @@ void mem_conv2stream(
                             // }
                             // #endif
                             conv_data_stream.write(current_packet);
-                            #ifndef __SYNTHESIS__
-                            printf("DEBUG WINDOW: OH=%d OW=%d ICH_BASE=%d : ", s_oh, s_ow, s_ich);
-                            for (int dbg_idx = 0; dbg_idx < FW_IN * FH_IN * ICH_PAR_IN; dbg_idx++) {
-                                ap_uint<MEM_IN_T_BIT_WIDTH> val_dbg = current_packet((dbg_idx + 1) * MEM_IN_T_BIT_WIDTH - 1, dbg_idx * MEM_IN_T_BIT_WIDTH);
-                                printf("%3d ", (int)val_dbg);
-                            }
-                            printf("\n");
-                            #endif
+                            // #ifndef __SYNTHESIS__
+                            // printf("DEBUG WINDOW: OH=%d OW=%d ICH_BASE=%d : ", s_oh, s_ow, s_ich);
+                            // for (int dbg_idx = 0; dbg_idx < FW_IN * FH_IN * ICH_PAR_IN; dbg_idx++) {
+                            //     ap_uint<MEM_IN_T_BIT_WIDTH> val_dbg = current_packet((dbg_idx + 1) * MEM_IN_T_BIT_WIDTH - 1, dbg_idx * MEM_IN_T_BIT_WIDTH);
+                            //     printf("%3d ", (int)val_dbg);
+                            // }
+                            // printf("\n");
+                            // #endif
                         }
                     }
                 }
@@ -295,58 +203,6 @@ void mem_conv2stream(
     }
 }
 
-
-
-// template<int FW, int FH, int ICH_PAR,
-//     int IH, int IW,
-//     int PADDING>
-// void pad_stream(
-//     hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &in_stream,
-//     hls::stream<conv_packet_t<FW, FH, ICH_PAR>> &out_stream)
-// {
-//     const int OH_PAD = IH + 2 * PADDING;
-//     const int OW_PAD = IW + 2 * PADDING;
-//     int read_count = 0;
-//     int write_count = 0;    
-//     conv_packet_t<FW, FH, ICH_PAR> zero_packet = 0;
-//     for (int oh_pad = 0; oh_pad < OH_PAD; oh_pad++) {
-//         for (int ow_pad = 0; ow_pad < OW_PAD; ow_pad++) {
-//             #pragma HLS PIPELINE II=1
-//             conv_packet_t<FW, FH, ICH_PAR> pkt;
-//             bool inside_valid_area = (oh_pad >= PADDING && oh_pad < IH + PADDING) && (ow_pad >= PADDING && ow_pad < IW + PADDING);
-//             if (inside_valid_area) {
-//                 pkt = in_stream.read(); // leggo dati reali
-//                 // print debug info
-//                 #ifndef __SYNTHESIS__
-//                 std::cout << "Packet READ (r=" << oh_pad << ", c=" << ow_pad << ") ";
-//                 for (int i = 0; i < FW * FH * ICH_PAR; i++) {
-//                     int val = pkt.range((i + 1) * 8 - 1, i * 8).to_int();
-//                     std::cout << val << " ";
-//                 }
-//                 std::cout << std::endl;
-//                 #endif
-//                 read_count++;
-//             } else {
-//                 pkt = zero_packet; // padding zero
-//             }
-//             //print pkt
-//             out_stream.write(pkt);
-//             // print debug info
-//             #ifndef __SYNTHESIS__
-//             std::cout << "Packet WRITE (r=" << oh_pad << ", c=" << ow_pad << ") ";
-//             for (int i = 0; i < FW * FH * ICH_PAR; i++) {
-//                 int val = pkt.range((i + 1) * 8 - 1, i * 8).to_int();
-//                 std::cout << val << " ";
-//             }
-//             std::cout << (inside_valid_area ? "[DATA]" : "[PAD]") << std::endl;
-//             #endif
-//             write_count++;
-//         }
-//     }
-//     #ifndef __SYNTHESIS__
-//     printf("pad_stream read %d packets and wrote %d packets\n", read_count, write_count);
-//     #endif
-// }
 
 
 
@@ -387,7 +243,7 @@ void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
     #pragma HLS INTERFACE ap_ctrl_none port=return
 
     filter_stream_t filter2conv; //stream of single value of filter
-    #pragma HLS STREAM variable=filter2conv depth=500
+    #pragma HLS STREAM variable=filter2conv depth=10000 //-------------------------------------------------------------------------------
     // filter_stream_t filter2conv2; //stream of single value of filter2
     // #pragma HLS STREAM variable=filter2conv2 depth=100
 
@@ -397,7 +253,7 @@ void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
 
     memory_in_conv_t<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR, CONV_0_ICH, WINDOW_IN> memory_in_local; // partiotioned memory for input
     //#pragma HLS ARRAY_PARTITION variable=memory_in_local complete dim=0
-    #pragma HLS ARRAY_PARTITION variable=memory_in_local cyclic factor=9 dim=0
+    #pragma HLS ARRAY_PARTITION variable=memory_in_local cyclic factor=49 dim=0 //-----------------------------------------------------------
 
 
     memory_out_conv_t<CONV_1_FW, CONV_1_FH, CONV_1_ICH_PAR, CONV_1_OCH, WINDOW_OUT> out_mem; // partiotioned memory for output of first conv
@@ -407,24 +263,16 @@ void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
     // memory_out_conv_t<CONV_2_FW, CONV_2_FH, CONV_2_ICH_PAR, CONV_2_OCH, WINDOW_OUT_2> out_mem2; // partiotioned memory for output of second conv
     // #pragma HLS ARRAY_PARTITION variable=out_mem2 complete dim=0
 
+    
     input2conv<CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, WINDOW_IN>(memory_in_stream, memory_in_local); // read stream and fill memory_in_local
     
     hls::stream<conv_packet_t<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR>> conv_data_stream; // stream of conv data
     #pragma HLS STREAM variable=conv_data_stream depth=100
     mem_conv2stream<CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, WINDOW_IN, CONV_0_STRIDE, CONV_1_ICH_PAR, CONV_0_PADDING>(memory_in_local, conv_data_stream); // convert memory to stream for first conv
 
-    // // stream dopo padding
-    // hls::stream<conv_packet_t<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR>> conv_padded_stream;
-    // #pragma HLS STREAM variable=conv_padded_stream depth=100
-
-    // pad_stream<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR, CONV_0_IH, CONV_0_IW, CONV_0_PADDING>(conv_data_stream, conv_padded_stream);
-
     #ifndef __SYNTHESIS__
     std::cout << "-------------------------------------------------------" << std::endl;
     #endif
-
-    #define IW_PAD (CONV_0_IW + 2 * CONV_0_PADDING)
-    #define IH_PAD (CONV_0_IH + 2 * CONV_0_PADDING)
 
     conv<CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, CONV_0_STRIDE, WINDOW_IN, CONV_1_ICH_PAR, CONV_1_FW, CONV_1_FH, CONV_1_OCH, WINDOW_OUT>(conv_data_stream, filter2conv, out_mem); // fisrt convolution
 

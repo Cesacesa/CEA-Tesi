@@ -6,18 +6,18 @@
 #include "ap_axi_sdata.h"
 
 
-#define CONV_0_STRIDE 1
-#define CONV_0_PADDING 1
+#define CONV_0_STRIDE 2
+#define CONV_0_PADDING 3
 #define CONV_0_ICH_PAR 1
 
 #define CONV_0_ICH 3 // input channels
-#define CONV_0_IW 32 // input width
-#define CONV_0_IH 32 // input height
+#define CONV_0_IW 224 // input width
+#define CONV_0_IH 224 // input height
 #define CONV_0_INPUT_SIZE (CONV_0_ICH * CONV_0_IW * CONV_0_IH) // input size
 
 
-#define CONV_0_FW 3 // filter width
-#define CONV_0_FH 3 // filter height
+#define CONV_0_FW 7 // filter width
+#define CONV_0_FH 7 // filter height
 
 #if (CONV_0_IW % CONV_0_FW != 0) 
     constexpr int WINDOW_IN = CONV_0_IW / CONV_0_FW + 1; 
@@ -25,7 +25,7 @@
     constexpr int WINDOW_IN = CONV_0_IW / CONV_0_FW;
 #endif
 
-#define CONV_0_OCH 16 // output channels
+#define CONV_0_OCH 64 // output channels
 #define CONV_0_OW ((CONV_0_IW + 2 * CONV_0_PADDING - CONV_0_FW) / CONV_0_STRIDE + 1) // output width
 #define CONV_0_OH ((CONV_0_IH + 2 * CONV_0_PADDING - CONV_0_FH) / CONV_0_STRIDE + 1) // output height
 constexpr int CONV_0_INPUT_SIZE_MAX =  CONV_0_FH * WINDOW_IN * CONV_0_FW *WINDOW_IN * CONV_0_ICH; // input size
@@ -38,7 +38,7 @@ constexpr int KERNEL_SIZE_0 = CONV_0_FW * CONV_0_FH * CONV_0_ICH * CONV_0_OCH;
 #define CONV_1_FW 1 // filter width 
 #define CONV_1_FH 1 // filter height
 
-#define CONV_1_OCH 16 // Numero di canali output
+#define CONV_1_OCH 64 // Numero di canali output
 #define CONV_1_OW ((CONV_0_OW - CONV_1_FW) / CONV_1_STRIDE + 1) // Larghezza output
 #define CONV_1_OH ((CONV_0_OH - CONV_1_FH) / CONV_1_STRIDE + 1) // Altezza output
 
@@ -48,7 +48,9 @@ constexpr int KERNEL_SIZE_0 = CONV_0_FW * CONV_0_FH * CONV_0_ICH * CONV_0_OCH;
     constexpr int WINDOW_OUT = CONV_0_OW / CONV_1_FW; 
 #endif
 
-#define CONV_0_OUTPUT_SIZE (CONV_0_FH * WINDOW_OUT * CONV_0_FW * WINDOW_OUT * CONV_0_OCH) // output size
+// #define CONV_0_OUTPUT_SIZE (CONV_0_FH * WINDOW_OUT * CONV_0_FW * WINDOW_OUT * CONV_0_OCH) // output size
+#define CONV_0_OUTPUT_SIZE (CONV_0_OW * CONV_0_OH * CONV_0_OCH) // output size
+
 constexpr int KERNEL_SIZE_1 = CONV_1_FW * CONV_1_FH * CONV_0_OCH * CONV_1_OCH; // kernel size
 #define CONV_1_OUTPUT_SIZE (CONV_1_OH * CONV_1_OW * CONV_1_OCH) // output size
 //---------------------------CONV_2--------------------------------
