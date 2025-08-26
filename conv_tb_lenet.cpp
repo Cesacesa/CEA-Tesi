@@ -232,9 +232,12 @@
 #include <ap_int.h>
 #include "parameter.h"
 
-#include "input_resnet_18.h"
-#include "kernel_resnet_18.h"
-#include "output_resnet_18.h"
+// #include "input_resnet_18.h"
+// #include "kernel_resnet_18.h"
+// #include "output_resnet_18.h"
+#include "input_first_conv.h"
+#include "kernel_conv1.h"
+#include "output_conv1.h"
 #include "output_matrix_deq_and_quant.h"
 
 void simple_out_conv2mem(memory_out_t* output_flat,

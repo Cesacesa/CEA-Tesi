@@ -230,6 +230,30 @@ void out_conv2mem(memory_out_quant<FW_OUT, FH_OUT, ICH_PAR_OUT, OCH_OUT, WINDOW_
     }
 }
 
+// template<int FW,
+//         int FH,
+//         int ICH_PAR,
+//         int OCH,
+//         int WINDOW>
+// void skip_add(
+//     memory_out_quant<FW, FH, ICH_PAR, OCH, WINDOW> &in1,
+//     memory_out_quant<FW, FH, ICH_PAR, OCH, WINDOW> &in2,
+//     memory_out_quant<FW, FH, ICH_PAR, OCH, WINDOW> &out)
+// {
+//     #ifndef __SYNTHESIS__
+//         std::cout << "Start skip_add" << std::endl;
+//     #endif
+//     constexpr int MEM_WIDTH = FW * FH * ICH_PAR;
+//     constexpr int MEM_DEPTH = (OCH * WINDOW * FW * WINDOW * FH) / MEM_WIDTH;
+//     for (int j = 0; j < MEM_DEPTH; j++) {
+//         for (int i = 0; i < MEM_WIDTH; i++) {
+//             #pragma HLS PIPELINE II=1
+//             out[i][j] = in1[i][j] + in2[i][j];
+//         }
+//     }
+// }
+
+
 
 void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
                  filter_stream_t        &filter_val_stream,
@@ -253,28 +277,43 @@ void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
 
     memory_in_conv_t<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR, CONV_0_ICH, WINDOW_IN> memory_in_local; // partiotioned memory for input
     //#pragma HLS ARRAY_PARTITION variable=memory_in_local complete dim=0
-    #pragma HLS ARRAY_PARTITION variable=memory_in_local cyclic factor=49 dim=0 //-----------------------------------------------------------
-
+    #pragma HLS ARRAY_PARTITION variable=memory_in_local cyclic factor=7 dim=0 //-----------------------------------------------------------
+    #pragma HLS ARRAY_PARTITION variable=memory_in_local cyclic factor=8 dim=1
 
     memory_out_conv_t<CONV_1_FW, CONV_1_FH, CONV_1_ICH_PAR, CONV_1_OCH, WINDOW_OUT> out_mem; // partiotioned memory for output of first conv
-    //#pragma HLS ARRAY_PARTITION variable=out_mem complete dim=0
-    #pragma HLS BIND_STORAGE variable=out_mem type=ram_t2p impl=bram
+    // #pragma HLS ARRAY_PARTITION variable=out_mem complete dim=0
+    // #pragma HLS ARRAY_PARTITION variable=out_mem cyclic factor=7 dim=0
 
     // memory_out_conv_t<CONV_2_FW, CONV_2_FH, CONV_2_ICH_PAR, CONV_2_OCH, WINDOW_OUT_2> out_mem2; // partiotioned memory for output of second conv
     // #pragma HLS ARRAY_PARTITION variable=out_mem2 complete dim=0
 
+
+    ap_int<32> bias_conv1[CONV_0_OCH] = {722, 873, 493, 954, 839, 561, 679, 732, 336, 796, 766, 836, 675, 739, 564, 838, 613, 896, 747, 517, 657, 357, 725, 913, 1088, 756, 252, 647, 256, 646, 617, 806,
+    721, 873, 678, 793, 699, 563, 744, 590, 526, 896, 758, 672, 916, 659, 771, 651, 706, 552, 852, 1006, 799, 861, 650, 688, 405, 653, 792, 725, 589, 240, 779, 330, 160, 634, 662, 515, 1077, 625, 774, 778,
+    864, 666, 773, 725, 1022, 834, 848, 616, 809, 827, 920, 858, 820, 848, 693, 1236, 829, 878, 846, 351, 686, 652, 990, 626, 618, 791, 629, 839, 741, 829, 679, 735, 597, 824, 710, 548, 1011, 714, 428, 689,
+    668, 735, 767, -1168, 939, 558, 784, 661, 582, 697, 474, 705, 677, 624, 721, 465, 856, 953, 845, 633, 789, 777, 609, 436, 584, 694, 431, 484, 311, 527, 1082, 787, 893, 708, 670, 869, 771, 612, 785, 549,
+    860, 885, 513, 738, 536, 798, 611, 1049, 745, 731, 837, 699, 995, 642, 676, 992, 261, 681, 551, 764, 416, 785, 922, 863, 823, 738, 748, 692, 674, 797, 813, 734, 551, 751, 993, 814, 631, 481, 659, 616,
+    513, 777, 673, 618, -226, 683, 670, 807, 579, 733, 240, 725, 689, 666, 630, 1087, 633, 468, 842, 774, 800, 709, 973, 849, 421, 706, 770, 652, 612, 379, 675, 504, 786, 898, 738, 730, 547, 673, 760, 945,
+    1001, 847, 585, 919, 863, 612, 648, 713, 1040, 930, 735, 1213, 698, 821, 505, 436, 638, 764, 835, 420, 659, 714, 789, 432, 565, 559, 808, 645, 820, 484, 503, 750, 792, 544, 804, 706, 697, 582, 539, 654,
+    731, 918, 803, 688, 730, 891, 960, 579, 647, 584, 517, 673, 870, 660, 680, 797, 814, 755, 891, 758, 596, 715, 794, 646, 587, 671, 748, 803, 878, 868, 549, 803, 705, 764, 951, 807, 1055, 845, 813, 803,
+    685, 664, 566, 852, 783, 1000, 841, 4, 803, 516, 340, 680, 868, 692, 731, 781, 278, 779, 441, 858, 674, 698, 890, 780, 345, 668, 310, 592, 698, 759, 911, 845, 267, 823, 675, 647, 654, 1001, 633, 619,
+    774, 703, 910, 736, 627, 414, 759, 764, 666, 839, 875, 701, 673, 767, 657, 642, 439, 579, 516, 824, 704, 780, 643, 520, 527, 837, 725, 663, 702, 771, 554, 646, 744, 823, 839, 530, 566, 665, 858, 632,
+    588, 1208, 336, 923, 596, 699, 668, 762, 103, 596, 690, 732, 568, 913, 1114, 542, 398, 690, 734, 866, 856, -73, 477, 678, 616, 707, 576, 929, 591, 700, 636, 287, 728, 721, 420, 849, 550, 631, 839, 1017,
+    828, 781, 710, 488, 733, 697, 616, 711, 370, 712, 718, 627, 796, 660, 887, 603, 826, 768, 715, 347, 1200, 759, 800, 787, 639, 1019, 610, 572, 1106, 632, 785, 745, 872, 711, 719, 693, 863, 776, 622, 816,
+    616, 702, 760, 918, 836, 738, 594, 754, 374, 971, 752, 834, 736, 903, 841, 932, 772, 360, 507, 221, 743, 785, 527, 916, 699, 1100, 822, 731, 707, 859, 716, 894, 1031, 852, 776, 975, 735, 793, 905, 860
+    };
     
     input2conv<CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, WINDOW_IN>(memory_in_stream, memory_in_local); // read stream and fill memory_in_local
     
     hls::stream<conv_packet_t<CONV_0_FW, CONV_0_FH, CONV_0_ICH_PAR>> conv_data_stream; // stream of conv data
-    #pragma HLS STREAM variable=conv_data_stream depth=100
+    #pragma HLS STREAM variable=conv_data_stream depth=2000 //MODIFICARE QUESTO PRIMA 100 --> 1000
     mem_conv2stream<CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, WINDOW_IN, CONV_0_STRIDE, CONV_1_ICH_PAR, CONV_0_PADDING>(memory_in_local, conv_data_stream); // convert memory to stream for first conv
 
     #ifndef __SYNTHESIS__
     std::cout << "-------------------------------------------------------" << std::endl;
     #endif
 
-    conv<CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, CONV_0_STRIDE, WINDOW_IN, CONV_1_ICH_PAR, CONV_1_FW, CONV_1_FH, CONV_1_OCH, WINDOW_OUT>(conv_data_stream, filter2conv, out_mem); // fisrt convolution
+    conv<CONV_0_ICH, CONV_0_IW, CONV_0_IH, CONV_0_FW, CONV_0_FH, CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_0_ICH_PAR, CONV_0_STRIDE, WINDOW_IN, CONV_1_ICH_PAR, CONV_1_FW, CONV_1_FH, CONV_1_OCH, WINDOW_OUT>(conv_data_stream, filter2conv, bias_conv1, out_mem); // fisrt convolution
 
     // hls::stream<conv_packet_t<CONV_1_FW, CONV_1_FH, CONV_1_ICH_PAR>> conv_data_stream2; // stream of conv data for second conv
     // #pragma HLS STREAM variable=conv_data_stream2 depth=100
@@ -286,7 +325,13 @@ void top_wrapper(hls::stream<mem_in_t>  &memory_in_stream,
     // out_conv2mem<CONV_0_OCH, CONV_0_OW, CONV_0_OH, CONV_1_FW, CONV_1_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_1_ICH_PAR, CONV_1_STRIDE, CONV_2_ICH_PAR, CONV_2_FW, CONV_2_FH, CONV_2_OCH, WINDOW_OUT_2>(out_mem, memory_out_stream); // read partitioned memory and write to output stream
 
     memory_out_quant <CONV_1_FW, CONV_1_FH, CONV_1_ICH_PAR, CONV_1_OCH, WINDOW_OUT> out_mem_quant; // partitioned memory for quantized output
-    matrix_wrapper(out_mem, out_mem_quant);
+    // #pragma HLS BIND_STORAGE variable=out_mem_quant type=ram_t2p impl=bram
+    constexpr int HEIGHT_1 = CONV_1_FW * CONV_1_FH * CONV_1_ICH_PAR;
+    constexpr int WIDTH_1 = (CONV_1_OCH * CONV_1_FW * CONV_1_FH * WINDOW_OUT * WINDOW_OUT) / (CONV_1_FW * CONV_1_FH * CONV_1_ICH_PAR);
+    matrix_wrapper<HEIGHT_1, WIDTH_1, 32, 8, 5>(out_mem, out_mem_quant);
+
+    // memory_out_quant<CONV_1_FW, CONV_1_FH, CONV_1_ICH_PAR, CONV_1_OCH, WINDOW_OUT> out_mem_added; // partitioned memory for skip connection
+    // skip_add<CONV_1_FW, CONV_1_FH, CONV_1_ICH_PAR, CONV_1_OCH, WINDOW_OUT>(out_mem_quant, out_mem_skip, out_mem_added);
 
     out_conv2mem<CONV_0_ICH, CONV_0_OW, CONV_0_OH, CONV_0_FW, CONV_0_FH, CONV_1_OCH, CONV_1_OW, CONV_1_OH, CONV_0_ICH_PAR, CONV_0_STRIDE, CONV_1_ICH_PAR, CONV_1_FW, CONV_1_FH, CONV_1_OCH, WINDOW_OUT>(out_mem_quant, memory_out_stream); // read partitioned memory and write to output stream
 }
